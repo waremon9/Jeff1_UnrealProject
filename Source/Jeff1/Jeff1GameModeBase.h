@@ -13,5 +13,9 @@ UCLASS()
 class JEFF1_API AJeff1GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+	public:
+	AJeff1GameModeBase();
+
+	virtual void BeginPlay() override;
 };
