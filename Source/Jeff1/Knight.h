@@ -29,6 +29,20 @@ protected:
 	void MoveForward(float value);
 	UFUNCTION()
 	void MoveRight(float value);
+	
+	UFUNCTION()
+	void TurnCamera(float value);
+	UFUNCTION()
+	void LookUp(float value);
+
+	UPROPERTY(EditAnywhere)
+	float TurnCameraSpeedModifier = 1.5;
+	UPROPERTY(EditAnywhere)
+	float LookUpSpeedModifier = 1.2;
+	UPROPERTY(EditAnywhere)
+	float MinPitch = -70;
+	UPROPERTY(EditAnywhere)
+	float MaxPitch = 0;
 
 public:	
 	// Called every frame

@@ -45,6 +45,22 @@ void AKnight::MoveRight(float value)
 	AddMovementInput(direction, value);
 }
 
+void AKnight::TurnCamera(float value)
+{
+	FRotator rotation = FRotator(0,1,0);
+	CameraBoom->SetRelativeRotation(rotation*value*TurnCameraSpeedModifier + CameraBoom->GetRelativeRotation());
+}
+
+void AKnight::LookUp(float value)
+{
+	FRotator rotation = FRotator(1,0,0);
+	FRotator nextRotation = CameraBoom->GetRelativeRotation() + rotation*value*LookUpSpeedModifier;
+	if(nextRotation.Pitch >= MinPitch && nextRotation.Pitch <= MaxPitch)
+	{
+		CameraBoom->SetRelativeRotation(nextRotation);
+	}
+}
+
 // Called every frame
 void AKnight::Tick(float DeltaTime)
 {
@@ -58,4 +74,6 @@ void AKnight::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	PlayerInputComponent->BindAxis("MoveForward", this, &AKnight::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AKnight::MoveRight);
+	PlayerInputComponent->BindAxis("TurnCamera", this, &AKnight::TurnCamera);
+	PlayerInputComponent->BindAxis("LookUp", this, &AKnight::LookUp);
 }
