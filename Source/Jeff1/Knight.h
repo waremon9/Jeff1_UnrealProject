@@ -17,11 +17,10 @@ class JEFF1_API AKnight : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-public:
-	// Sets default values for this character's properties
+	public:
 	AKnight();
 	
-protected:
+	protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -29,22 +28,8 @@ protected:
 	void MoveForward(float value);
 	UFUNCTION()
 	void MoveRight(float value);
-	
-	UFUNCTION()
-	void TurnCamera(float value);
-	UFUNCTION()
-	void LookUp(float value);
 
-	UPROPERTY(EditAnywhere)
-	float TurnCameraSpeedModifier = 1.5;
-	UPROPERTY(EditAnywhere)
-	float LookUpSpeedModifier = 1.2;
-	UPROPERTY(EditAnywhere)
-	float MinPitch = -70;
-	UPROPERTY(EditAnywhere)
-	float MaxPitch = 0;
-
-public:	
+	public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

@@ -10,13 +10,22 @@
 // Sets default values
 AKnight::AKnight()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	// Don't rotate when the controller rotates. Let that just affect the camera.
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+	
+	// Configure character movement
+	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->JumpZVelocity = 600.f;
+	GetCharacterMovement()->AirControl = 0.2f;
+	
 	//camera boom
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f;
+	CameraBoom->TargetArmLength = 500.0f;
+	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	//camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -30,34 +39,35 @@ void AKnight::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorld()->GetFirstPlayerController()->Possess(this);
+	//GetWorld()->GetFirstPlayerController()->Possess(this);
 }
 
 void AKnight::MoveForward(float value)
 {
-	FVector direction = this->GetActorForwardVector();
+	if ((Controller != nullptr) && (value != 0.0f))
+{
+	// find out which way is forward
+	const FRotator rotation = Controller->GetControlRotation();
+	const FRotator yawRotation(0, rotation.Yaw, 0);
+
+	// get forward vector
+	const FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
 	AddMovementInput(direction, value);
+}
 }
 
 void AKnight::MoveRight(float value)
 {
-	FVector direction = this->GetActorRightVector();
-	AddMovementInput(direction, value);
-}
-
-void AKnight::TurnCamera(float value)
-{
-	FRotator rotation = FRotator(0,1,0);
-	CameraBoom->SetRelativeRotation(rotation*value*TurnCameraSpeedModifier + CameraBoom->GetRelativeRotation());
-}
-
-void AKnight::LookUp(float value)
-{
-	FRotator rotation = FRotator(1,0,0);
-	FRotator nextRotation = CameraBoom->GetRelativeRotation() + rotation*value*LookUpSpeedModifier;
-	if(nextRotation.Pitch >= MinPitch && nextRotation.Pitch <= MaxPitch)
+	if ( (Controller != nullptr) && (value != 0.0f) )
 	{
-		CameraBoom->SetRelativeRotation(nextRotation);
+		// find out which way is right
+		const FRotator rotation = Controller->GetControlRotation();
+		const FRotator yawRotation(0, rotation.Yaw, 0);
+	
+		// get right vector 
+		const FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::Y);
+		// add movement in that direction
+		AddMovementInput(direction, value);
 	}
 }
 
@@ -74,6 +84,8 @@ void AKnight::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	PlayerInputComponent->BindAxis("MoveForward", this, &AKnight::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AKnight::MoveRight);
-	PlayerInputComponent->BindAxis("TurnCamera", this, &AKnight::TurnCamera);
-	PlayerInputComponent->BindAxis("LookUp", this, &AKnight::LookUp);
+	
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	
 }
