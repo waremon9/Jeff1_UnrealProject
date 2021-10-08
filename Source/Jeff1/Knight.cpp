@@ -27,6 +27,8 @@ AKnight::AKnight()
 	CameraBoom->TargetArmLength = 500.0f;
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
+	CameraZoom_v = CameraBoom->TargetArmLength;
+
 	//camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -38,8 +40,6 @@ AKnight::AKnight()
 void AKnight::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//GetWorld()->GetFirstPlayerController()->Possess(this);
 }
 
 void AKnight::MoveForward(float value)
@@ -71,6 +71,24 @@ void AKnight::MoveRight(float value)
 	}
 }
 
+void AKnight::CameraZoomIn()
+{
+	//Reduce camera boom lenght and check if not to short then apply
+	if((CameraZoom_v -= ZoomSpeed) <= MinCameraLength)
+		CameraZoom_v = MinCameraLength;
+	
+	CameraBoom->TargetArmLength = CameraZoom_v;
+}
+
+void AKnight::CameraZoomOut()
+{
+	//increase camera boom lenght and check if not to long then apply
+	if((CameraZoom_v += ZoomSpeed) >= MaxCameraLength)
+		CameraZoom_v = MaxCameraLength;
+	
+	CameraBoom->TargetArmLength = CameraZoom_v;
+}
+
 // Called every frame
 void AKnight::Tick(float DeltaTime)
 {
@@ -81,11 +99,17 @@ void AKnight::Tick(float DeltaTime)
 void AKnight::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
+
+	//Movement input
 	PlayerInputComponent->BindAxis("MoveForward", this, &AKnight::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AKnight::MoveRight);
-	
+
+	//Camera movement input
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+
+	//camera zoom input
+	PlayerInputComponent->BindAction("ZoomIn", IE_Pressed, this, &AKnight::CameraZoomIn);
+	PlayerInputComponent->BindAction("ZoomOut", IE_Pressed, this, &AKnight::CameraZoomOut);
 	
 }

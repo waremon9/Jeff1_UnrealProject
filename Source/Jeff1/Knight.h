@@ -29,6 +29,19 @@ class JEFF1_API AKnight : public ACharacter
 	UFUNCTION()
 	void MoveRight(float value);
 
+	UFUNCTION()
+	void CameraZoomIn();
+	UFUNCTION()
+	void CameraZoomOut();
+	UPROPERTY(VisibleAnywhere)
+	float CameraZoom_v;
+	UPROPERTY(EditAnywhere)
+	float ZoomSpeed = 25.f;
+	UPROPERTY(EditAnywhere)
+	float MinCameraLength = 150.f;
+	UPROPERTY(EditAnywhere)
+	float MaxCameraLength = 800.f;
+
 	public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
