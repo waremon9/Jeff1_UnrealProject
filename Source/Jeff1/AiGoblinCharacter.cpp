@@ -3,6 +3,8 @@
 
 #include "AiGoblinCharacter.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 // Sets default values
 AAiGoblinCharacter::AAiGoblinCharacter()
 {
@@ -15,11 +17,13 @@ AAiGoblinCharacter::AAiGoblinCharacter()
 void AAiGoblinCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	Movement = Cast<UCharacterMovementComponent>(this->GetMovementComponent());
+	Movement->MaxWalkSpeed = MoveSpeed;
 }
 
 // Called every frame
-void AAiGoblinCharacter::Tick(float DeltaTime)
+void AAiGoblinCharacter::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

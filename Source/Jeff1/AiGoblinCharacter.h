@@ -18,6 +18,11 @@ public:
 	UPROPERTY(EditAnywhere,Category="AI")
 	class UBehaviorTree* BehaviorTree;
 
+	UPROPERTY(EditAnywhere)
+	UCharacterMovementComponent* Movement;
+	UPROPERTY(EditAnywhere)
+	float MoveSpeed = 680;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
