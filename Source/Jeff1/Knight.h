@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Food.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
 #include "Knight.generated.h"
 
@@ -17,6 +19,15 @@ class JEFF1_API AKnight : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
+	UPROPERTY(VisibleDefaultsOnly)
+	UCharacterMovementComponent* MovComp;
+	
+	UPROPERTY(VisibleAnywhere)
+	UBoxComponent* BoxInteract;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	USkeletalMeshSocket const* Hand;
+
 	public:
 	AKnight();
 	
@@ -30,6 +41,9 @@ class JEFF1_API AKnight : public ACharacter
 	void MoveRight(float value);
 
 	UFUNCTION()
+	void Interact();
+
+	UFUNCTION()
 	void CameraZoomIn();
 	UFUNCTION()
 	void CameraZoomOut();
@@ -41,6 +55,17 @@ class JEFF1_API AKnight : public ACharacter
 	float MinCameraLength = 150.f;
 	UPROPERTY(EditAnywhere)
 	float MaxCameraLength = 800.f;
+	
+	UPROPERTY(VisibleDefaultsOnly)
+	AFood* Food;
+
+	UFUNCTION()
+	void PickUpFood();
+	UFUNCTION()
+	void DropFood();
+
+	UPROPERTY()
+	float MoveSpeed = 900;
 
 	public:	
 	// Called every frame

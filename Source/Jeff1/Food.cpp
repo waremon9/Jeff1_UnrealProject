@@ -3,19 +3,15 @@
 
 #include "Food.h"
 
-#include "GameMenuBuilder/Public/GameMenuItem.h"
-
 // Sets default values
 AFood::AFood()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
-	RootScene = CreateDefaultSubobject<USceneComponent>("RootScene");
-	RootComponent = RootScene;
-
+	//set static mesh to root or it won't move using SetActorLocation when knight interact
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
-	StaticMesh->SetupAttachment(RootScene);
+	RootComponent = StaticMesh;
 }
 
 // Called when the game starts or when spawned
@@ -32,7 +28,7 @@ void AFood::BeginPlay()
 		StaticMesh->GetLocalBounds(Min, Max);
 		
 		//Adjust mesh size
-		StaticMesh->SetWorldScale3D(RootScene->GetComponentScale() / ((Max.X - Min.X) / SizeGoal));
+		StaticMesh->SetWorldScale3D(StaticMesh->GetComponentScale() / ((Max.X - Min.X) / SizeGoal));
 
 	}
 }

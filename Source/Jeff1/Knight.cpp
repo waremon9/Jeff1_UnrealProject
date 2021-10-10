@@ -3,7 +3,9 @@
 
 #include "Knight.h"
 
+#include "Food.h"
 #include "Camera/CameraComponent.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -33,6 +35,10 @@ AKnight::AKnight()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	//Box for interacting with food
+	BoxInteract = CreateDefaultSubobject<UBoxComponent>("BoxInteract");
+	BoxInteract->SetupAttachment(RootComponent);
 }
 
 
@@ -40,6 +46,11 @@ AKnight::AKnight()
 void AKnight::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	Hand = this->GetMesh()->GetSocketByName("Right_Hand");
+	
+	MovComp = Cast<UCharacterMovementComponent>(this->GetMovementComponent());
+	MovComp->MaxWalkSpeed = MoveSpeed;
 }
 
 void AKnight::MoveForward(float value)
@@ -71,6 +82,12 @@ void AKnight::MoveRight(float value)
 	}
 }
 
+void AKnight::Interact()
+{
+	if(Food) DropFood();
+	else PickUpFood();
+}
+
 void AKnight::CameraZoomIn()
 {
 	//Reduce camera boom lenght and check if not to short then apply
@@ -87,6 +104,38 @@ void AKnight::CameraZoomOut()
 		CameraZoom_v = MaxCameraLength;
 	
 	CameraBoom->TargetArmLength = CameraZoom_v;
+}
+
+void AKnight::PickUpFood()
+{
+	//get all food in front of knight
+	TArray<AActor*> Actors;
+	BoxInteract->GetOverlappingActors(Actors);
+
+	for(AActor* food : Actors)
+	{
+		if(Cast<AFood>(food))
+		{
+			if(Hand)
+			{
+				Food = Cast<AFood>(food); //give food ref to knight
+				Food->StaticMesh->SetSimulatePhysics(false); //stop physic of carried food
+				Food->SetActorEnableCollision(false);
+				Hand->AttachActor(Food, this->GetMesh()); //add food to hand socket
+				MovComp->MaxWalkSpeed = MoveSpeed/2; //reduce player speed
+			} else UE_LOG(LogTemp, Error, TEXT("Hand socket nullptr"));
+			return;
+		}
+	}
+}
+
+void AKnight::DropFood()
+{
+	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //remove food from socket
+	Food->StaticMesh->SetSimulatePhysics(true); //re-enable physic of carried food
+	Food->SetActorEnableCollision(true);
+	MovComp->MaxWalkSpeed = MoveSpeed; //reset player speed
+	Food = nullptr;
 }
 
 // Called every frame
@@ -111,5 +160,8 @@ void AKnight::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	//camera zoom input
 	PlayerInputComponent->BindAction("ZoomIn", IE_Pressed, this, &AKnight::CameraZoomIn);
 	PlayerInputComponent->BindAction("ZoomOut", IE_Pressed, this, &AKnight::CameraZoomOut);
+
+	//InteractInput
+	PlayerInputComponent->BindAction("Interact",IE_Pressed, this, &AKnight::Interact);
 	
 }

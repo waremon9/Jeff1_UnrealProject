@@ -16,9 +16,6 @@ public:
 	AFood();
 
 	UPROPERTY(EditAnywhere)
-	USceneComponent* RootScene;
-
-	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(EditAnywhere)
