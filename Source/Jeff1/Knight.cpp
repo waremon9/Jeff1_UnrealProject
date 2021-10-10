@@ -3,6 +3,7 @@
 
 #include "Knight.h"
 
+#include "Chest.h"
 #include "Food.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
@@ -131,6 +132,22 @@ void AKnight::PickUpFood()
 
 void AKnight::DropFood()
 {
+	//Is chest in front of knight?
+	TArray<AActor*> Actors;
+	BoxInteract->GetOverlappingActors(Actors);
+
+	for(AActor* chest : Actors)
+	{
+		if(Cast<AChest>(chest))
+		{
+			UE_LOG(LogTemp, Display, TEXT("Added food in chest"));
+			MovComp->MaxWalkSpeed = MoveSpeed; //reset player speed
+			Food->Destroy();
+			Food = nullptr;
+			return;
+		}
+	}
+
 	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //remove food from socket
 	Food->StaticMesh->SetSimulatePhysics(true); //re-enable physic of carried food
 	Food->SetActorEnableCollision(true);
