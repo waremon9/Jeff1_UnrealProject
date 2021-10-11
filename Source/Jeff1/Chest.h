@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Knight.h"
 #include "GameFramework/Actor.h"
 #include "Chest.generated.h"
 
@@ -23,10 +24,24 @@ public:
 	// Sets default values for this actor's properties
 	AChest();
 
+	UPROPERTY(EditAnywhere)
+	float ChestMaxAngle;
+	UPROPERTY(EditAnywhere)
+	float MinDistanceKnight;
+	UPROPERTY(EditAnywhere)
+	float MaxDistanceKnight;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	FRotator BaseTopRotation;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleDefaultsOnly)
+	AKnight* Knight;
+
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
