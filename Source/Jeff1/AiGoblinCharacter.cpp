@@ -16,6 +16,8 @@ AAiGoblinCharacter::AAiGoblinCharacter()
 // Called when the game starts or when spawned
 void AAiGoblinCharacter::BeginPlay()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Goblin character spawned"));
+	
 	Super::BeginPlay();
 
 	Movement = Cast<UCharacterMovementComponent>(this->GetMovementComponent());

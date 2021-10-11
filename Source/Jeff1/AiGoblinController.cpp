@@ -25,6 +25,9 @@ AAiGoblinController::AAiGoblinController()
 void AAiGoblinController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
+
+	
+	UE_LOG(LogTemp, Warning, TEXT("Goblin character possessed"));
  
 	//Get the possessed Character and check if it's my own AI Character
 	AAiGoblinCharacter* AIChar = Cast<AAiGoblinCharacter>(InPawn);

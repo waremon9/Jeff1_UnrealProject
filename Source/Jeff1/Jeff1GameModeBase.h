@@ -14,6 +14,14 @@ class JEFF1_API AJeff1GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+	AActor* BaseLocation; //TODO : move to gamestate
+	
+	TSubclassOf<class AAiGoblinCharacter> GoblinBP;
+	
+protected:
+	UFUNCTION()
+	void SpawnNewGoblin();
+	
 	public:
 	AJeff1GameModeBase();
 
