@@ -3,6 +3,7 @@
 
 #include "AiGoblinController.h"
 #include "AiGoblinCharacter.h"
+#include "BotBasePoint.h"
 #include "BotTargetPoint.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -41,6 +42,9 @@ void AAiGoblinController::OnPossess(APawn* InPawn)
 		BotTargetPoints as such. When I will need to get an exact point and compare it,
 		I will cast it to the corresponding class (ABotTargetPoint)*/
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABotTargetPoint::StaticClass(), BotTargetPoints);
+
+		//get the starting point and ending point of goblin
+		BlackboardComp->SetValueAsObject("BaseLocation", UGameplayStatics::GetActorOfClass(GetWorld(), ABotBasePoint::StaticClass()));
  
 		//Start the behavior tree which corresponds to the specific character
 		BehaviorComp->StartTree(*AIChar->BehaviorTree);
