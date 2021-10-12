@@ -29,10 +29,6 @@ class JEFF1_API AAiGoblinController : public AAIController
  
 	/*----------Blackboard----------*/
  
-	/*I use the AActor class as the Template class so I can use the GetAllActorsOfClass function.
-	However, in this collection I'm going to store all the Available ABotTargetPoint instances.*/
-	TArray<AActor*> BotTargetPoints;
- 
 	/*Posses is executed when the character we want to control is spawned.
 	Inside this function, we initialize the blackboard and start the behavior tree*/
 	virtual void OnPossess(APawn* InPawn) override;
@@ -43,6 +39,4 @@ public:
 	AAiGoblinController();
  
 	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return BlackboardComp; }
- 
-	FORCEINLINE TArray<AActor*> GetAvailableTargetPoints() { return BotTargetPoints; }
 };

@@ -5,7 +5,7 @@
 
 #include "AiGoblinCharacter.h"
 #include "AiGoblinController.h"
-#include "Jeff1GameStateBase.h"
+#include "Jeff1GameState.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
 
@@ -20,7 +20,7 @@ EBTNodeResult::Type UBTTaskCarryFruit::ExecuteTask(UBehaviorTreeComponent & Owne
 
 		if (Character)
 		{
-			TSubclassOf<AFood> FoodBp = GetWorld()->GetGameState<AJeff1GameStateBase>()->GetFoodBP();
+			TSubclassOf<AFood> FoodBp = GetWorld()->GetGameState<AJeff1GameState>()->GetFoodBP();
 			FActorSpawnParameters SpawnInfo;
 			AFood* Food = GetWorld()->SpawnActor<AFood>(FoodBp, FVector::ZeroVector, FRotator::ZeroRotator, SpawnInfo);
 			
@@ -28,7 +28,7 @@ EBTNodeResult::Type UBTTaskCarryFruit::ExecuteTask(UBehaviorTreeComponent & Owne
 
 			BlackboardComp->SetValueAsObject("Food", Food); //add food to blackboard
 			
-			GetWorld()->GetGameState<AJeff1GameStateBase>()->FoodInMap++;
+			GetWorld()->GetGameState<AJeff1GameState>()->FoodInMap++;
 			
 			//At this point, the task has been successfully completed
 			return EBTNodeResult::Succeeded;

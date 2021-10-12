@@ -2,7 +2,6 @@
 
 
 #include "AiGoblinCharacter.h"
-
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values

@@ -4,6 +4,7 @@
 #include "BTTaskTargetPointSelection.h"
 #include "BotTargetPoint.h"
 #include "AIGoblinController.h"
+#include "Jeff1GameState.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
@@ -19,17 +20,17 @@ EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeCompon
 		UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
 		ABotTargetPoint* CurrentPoint = Cast<ABotTargetPoint>(BlackboardComp->GetValueAsObject("LocationToGo"));
  
-		TArray<AActor*> AvailableTargetPoints = AICon->GetAvailableTargetPoints();
+		TArray<ABotTargetPoint*> AvailableTargetPoints = GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetAllBotTarget();
 
 		//Here, we store the possible next target point
-		ABotTargetPoint* NextTargetPoint = nullptr;
+		ABotTargetPoint* NextTargetPoint;
  
 		//Find a next point which is different from the current one
 		do
 		{
 			const int32 RandomIndex = FMath::RandRange(0, AvailableTargetPoints.Num() - 1);
 			//Remember that the Array provided by the Controller function contains AActor* objects so we need to cast.
-			NextTargetPoint = Cast<ABotTargetPoint>(AvailableTargetPoints[RandomIndex]);
+			NextTargetPoint = AvailableTargetPoints[RandomIndex];
 		} while (CurrentPoint == NextTargetPoint);
  
 		//Update the next location in the Blackboard so the bot can move to the next Blackboard value

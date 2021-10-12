@@ -3,22 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameStateBase.h"
-#include "Jeff1GameStateBase.generated.h"
+#include "AiLocationManager.h"
+#include "GameFramework/GameState.h"
+#include "Jeff1GameState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class JEFF1_API AJeff1GameStateBase : public AGameStateBase
+class JEFF1_API AJeff1GameState : public AGameState
 {
 	GENERATED_BODY()
 
 protected:
-	//all food possible location
-	TArray<AActor*> BotTargetPoints;
-	//entry of storage location
-	AActor* BaseLocation;
+	UPROPERTY(VisibleDefaultsOnly)
+	AAiLocationManager* AiLocationManager;
 	
 	//Goblin blueprint
 	TSubclassOf<class AAiGoblinCharacter> GoblinBP;
@@ -26,14 +25,13 @@ protected:
 	TSubclassOf<class AFood> FoodBP;
 
 public:
-	AJeff1GameStateBase();
-
-	void BeginPlay() override;
+	AJeff1GameState();
 
 	UFUNCTION()
-	TArray<AActor*> GetBotTargetPoints();
+	void SetAiLocationManager(AAiLocationManager* Ref){AiLocationManager = Ref;}
 	UFUNCTION()
-	AActor* GetBaseLocation();
+	AAiLocationManager* GetAiLocationManager(){return AiLocationManager;}
+
 	UFUNCTION()
 	TSubclassOf<class AAiGoblinCharacter> GetGoblinBP(){return GoblinBP;}
 	UFUNCTION()

@@ -5,7 +5,7 @@
 
 #include "Chest.h"
 #include "Food.h"
-#include "Jeff1GameStateBase.h"
+#include "Jeff1GameState.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -129,8 +129,8 @@ void AKnight::InteractFoodInHand()
 			Food->Destroy(); //Food in chest so destroy
 			Food = nullptr; //clear pointer
 			
-			GetWorld()->GetGameState<AJeff1GameStateBase>()->FoodAcquired++;
-			GetWorld()->GetGameState<AJeff1GameStateBase>()->FoodInMap--;
+			GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired++;
+			GetWorld()->GetGameState<AJeff1GameState>()->FoodInMap--;
 			
 			return;
 		}

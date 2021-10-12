@@ -3,7 +3,7 @@
 
 #include "AiGoblinController.h"
 #include "AiGoblinCharacter.h"
-#include "Jeff1GameStateBase.h"
+#include "Jeff1GameState.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
@@ -37,12 +37,9 @@ void AAiGoblinController::OnPossess(APawn* InPawn)
 		{
 			BlackboardComp->InitializeBlackboard(*(AIChar->BehaviorTree->BlackboardAsset));
 		}
- 
-		//Get all food location
-		BotTargetPoints = GetWorld()->GetGameState<AJeff1GameStateBase>()->GetBotTargetPoints();
 
 		//get the starting point and ending point of goblin
-		BlackboardComp->SetValueAsObject("BaseLocation", GetWorld()->GetGameState<AJeff1GameStateBase>()->GetBaseLocation());
+		BlackboardComp->SetValueAsObject("BaseLocation", GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetBaseLocation());
  
 		//Start the behavior tree which corresponds to the specific character
 		BehaviorComp->StartTree(*AIChar->BehaviorTree);
