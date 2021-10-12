@@ -42,12 +42,15 @@ void AFoodCarryingCharacter::CarryFood(AFood* food)
 	MovComp->MaxWalkSpeed = MoveSpeed/2; //reduce character speed
 }
 
-void AFoodCarryingCharacter::DropFood()
+AFood* AFoodCarryingCharacter::DropFood()
 {
 	Food->StaticMesh->SetSimulatePhysics(true); //give physic back to carried food
 	Food->SetActorEnableCollision(true);
 	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //Detach food from hand
+	AFood* TheItemToReturn = Food;
 	Food = nullptr;
 	MovComp->MaxWalkSpeed = MoveSpeed; //reset character speed
+
+	return TheItemToReturn;
 }
 

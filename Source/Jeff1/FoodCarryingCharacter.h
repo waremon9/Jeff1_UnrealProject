@@ -42,7 +42,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void CarryFood(AFood* food);
-	void DropFood();
+	AFood* DropFood();
 
 	UCharacterMovementComponent* GetMoveComp(){return MovComp;}
 	USkeletalMeshSocket const* GetHand() {return Hand;}
