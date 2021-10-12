@@ -5,7 +5,6 @@
 
 #include "AiGoblinCharacter.h"
 #include "Jeff1GameStateBase.h"
-#include "Knight.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -24,9 +23,6 @@ void AJeff1GameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BaseLocation = GetWorld()->GetGameState<AJeff1GameStateBase>()->GetBaseLocation();
-	GoblinBP = GetWorld()->GetGameState<AJeff1GameStateBase>()->GetGoblinBP();
-
 	//2 goblin appear at the start
 	SpawnNewGoblin();
 	SpawnNewGoblin();
@@ -36,10 +32,11 @@ void AJeff1GameModeBase::BeginPlay()
 void AJeff1GameModeBase::SpawnNewGoblin()
 {
 	FActorSpawnParameters SpawnInfo;
-	AAiGoblinCharacter* Goblin = GetWorld()->SpawnActor<AAiGoblinCharacter>(GoblinBP,
-		BaseLocation->GetActorLocation(),
+	GetWorld()->SpawnActor<AAiGoblinCharacter>(
+		GetWorld()->GetGameState<AJeff1GameStateBase>()->GetGoblinBP(),
+		GetWorld()->GetGameState<AJeff1GameStateBase>()->GetBaseLocation()->GetActorLocation(),
 		FRotator::ZeroRotator,
 		SpawnInfo);
 
-	GetWorld()->GetGameState<AJeff1GameStateBase>()->GoblinArray.Push(Goblin);
+	GetWorld()->GetGameState<AJeff1GameStateBase>()->GoblinInMap++;
 }

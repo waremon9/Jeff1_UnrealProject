@@ -3,8 +3,6 @@
 
 #include "AiGoblinController.h"
 #include "AiGoblinCharacter.h"
-#include "BotBasePoint.h"
-#include "BotTargetPoint.h"
 #include "Jeff1GameStateBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"

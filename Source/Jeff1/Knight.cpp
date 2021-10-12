@@ -5,6 +5,7 @@
 
 #include "Chest.h"
 #include "Food.h"
+#include "Jeff1GameStateBase.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -42,30 +43,18 @@ AKnight::AKnight()
 	BoxInteract->SetupAttachment(RootComponent);
 }
 
-
-// Called when the game starts or when spawned
-void AKnight::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	Hand = this->GetMesh()->GetSocketByName("Right_Hand");
-	
-	MovComp = Cast<UCharacterMovementComponent>(this->GetMovementComponent());
-	MovComp->MaxWalkSpeed = MoveSpeed;
-}
-
 void AKnight::MoveForward(float value)
 {
 	if ((Controller != nullptr) && (value != 0.0f))
-{
-	// find out which way is forward
-	const FRotator rotation = Controller->GetControlRotation();
-	const FRotator yawRotation(0, rotation.Yaw, 0);
+	{
+		// find out which way is forward
+		const FRotator rotation = Controller->GetControlRotation();
+		const FRotator yawRotation(0, rotation.Yaw, 0);
 
-	// get forward vector
-	const FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
-	AddMovementInput(direction, value);
-}
+		// get forward vector
+		const FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(direction, value);
+	}
 }
 
 void AKnight::MoveRight(float value)
@@ -85,8 +74,8 @@ void AKnight::MoveRight(float value)
 
 void AKnight::Interact()
 {
-	if(Food) DropFood();
-	else PickUpFood();
+	if(Food) InteractFoodInHand();
+	else InteractNoFoodInHand();
 }
 
 void AKnight::CameraZoomIn()
@@ -107,52 +96,48 @@ void AKnight::CameraZoomOut()
 	CameraBoom->TargetArmLength = CameraZoom_v;
 }
 
-void AKnight::PickUpFood()
+void AKnight::InteractNoFoodInHand()
 {
 	//get all food in front of knight
 	TArray<AActor*> Actors;
 	BoxInteract->GetOverlappingActors(Actors);
 
-	for(AActor* food : Actors)
+	for(AActor* food : Actors)//for all overlapping actor
 	{
-		if(Cast<AFood>(food))
+		if(Cast<AFood>(food))//if actor is AFood
 		{
-			if(Hand)
+			if(Hand)//Hand socket isn't null
 			{
-				Food = Cast<AFood>(food); //give food ref to knight
-				Food->StaticMesh->SetSimulatePhysics(false); //stop physic of carried food
-				Food->SetActorEnableCollision(false);
-				Hand->AttachActor(Food, this->GetMesh()); //add food to hand socket
-				MovComp->MaxWalkSpeed = MoveSpeed/2; //reduce player speed
+				CarryFood(Cast<AFood>(food));
 			} else UE_LOG(LogTemp, Error, TEXT("Hand socket nullptr"));
 			return;
 		}
 	}
 }
 
-void AKnight::DropFood()
+void AKnight::InteractFoodInHand()
 {
 	//Is chest in front of knight?
 	TArray<AActor*> Actors;
 	BoxInteract->GetOverlappingActors(Actors);
 
-	for(AActor* chest : Actors)
+	for(AActor* chest : Actors)//for all overlapping actor
 	{
-		if(Cast<AChest>(chest))
+		if(Cast<AChest>(chest))//if actor is AChest
 		{
-			UE_LOG(LogTemp, Display, TEXT("Added food in chest"));
 			MovComp->MaxWalkSpeed = MoveSpeed; //reset player speed
-			Food->Destroy();
-			Food = nullptr;
+			Food->Destroy(); //Food in chest so destroy
+			Food = nullptr; //clear pointer
+			
+			GetWorld()->GetGameState<AJeff1GameStateBase>()->FoodAcquired++;
+			GetWorld()->GetGameState<AJeff1GameStateBase>()->FoodInMap--;
+			
 			return;
 		}
 	}
 
-	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //remove food from socket
-	Food->StaticMesh->SetSimulatePhysics(true); //re-enable physic of carried food
-	Food->SetActorEnableCollision(true);
-	MovComp->MaxWalkSpeed = MoveSpeed; //reset player speed
-	Food = nullptr;
+	//no chest to interact with, drop food on the floor
+	DropFood();
 }
 
 // Called every frame

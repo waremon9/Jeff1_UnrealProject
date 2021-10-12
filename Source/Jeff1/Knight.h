@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Food.h"
+#include "FoodCarryingCharacter.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
 #include "Knight.generated.h"
 
 UCLASS(config=Game)
-class JEFF1_API AKnight : public ACharacter
+class JEFF1_API AKnight : public AFoodCarryingCharacter
 {
 	GENERATED_BODY()
 	
@@ -18,22 +19,14 @@ class JEFF1_API AKnight : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
-
-	UPROPERTY(VisibleDefaultsOnly)
-	UCharacterMovementComponent* MovComp;
 	
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* BoxInteract;
-
-	UPROPERTY(VisibleDefaultsOnly)
-	USkeletalMeshSocket const* Hand;
 
 	public:
 	AKnight();
 	
 	protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 	UFUNCTION()
 	void MoveForward(float value);
@@ -55,17 +48,11 @@ class JEFF1_API AKnight : public ACharacter
 	float MinCameraLength = 150.f;
 	UPROPERTY(EditAnywhere)
 	float MaxCameraLength = 800.f;
-	
-	UPROPERTY(VisibleDefaultsOnly)
-	AFood* Food;
 
 	UFUNCTION()
-	void PickUpFood();
+	void InteractNoFoodInHand();
 	UFUNCTION()
-	void DropFood();
-
-	UPROPERTY()
-	float MoveSpeed = 900;
+	void InteractFoodInHand();
 
 	public:	
 	// Called every frame

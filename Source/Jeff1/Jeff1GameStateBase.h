@@ -22,6 +22,8 @@ protected:
 	
 	//Goblin blueprint
 	TSubclassOf<class AAiGoblinCharacter> GoblinBP;
+	//Food blueprint
+	TSubclassOf<class AFood> FoodBP;
 
 public:
 	AJeff1GameStateBase();
@@ -34,8 +36,10 @@ public:
 	AActor* GetBaseLocation();
 	UFUNCTION()
 	TSubclassOf<class AAiGoblinCharacter> GetGoblinBP(){return GoblinBP;}
+	UFUNCTION()
+	TSubclassOf<class AFood> GetFoodBP(){return FoodBP;}
 
 	int FoodInMap = 0;
 	int FoodAcquired = 0;
-	TArray<AAiGoblinCharacter*> GoblinArray;
+	int GoblinInMap = 0;
 };
