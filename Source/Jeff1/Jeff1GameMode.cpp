@@ -39,7 +39,7 @@ void AJeff1GameMode::HandleMatchHasStarted()
 	FVector SpawnLocation = Points[FMath::RandRange(0, Points.Num() - 1)]->GetActorLocation();
 	
 	FActorSpawnParameters SpawnInfo;
-	GetWorld()->SpawnActor<AAiGoblinCharacter>(
+	GetWorld()->SpawnActor<AFood>(
 		GetWorld()->GetGameState<AJeff1GameState>()->GetFoodBP(),
 		SpawnLocation,
 		FRotator::ZeroRotator,
