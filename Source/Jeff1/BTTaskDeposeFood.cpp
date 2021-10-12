@@ -19,8 +19,7 @@ EBTNodeResult::Type UBTTaskDeposeFood::ExecuteTask(UBehaviorTreeComponent & Owne
 
 		if (Character)
 		{
-			AFood* Food = Character->DropFood();
-			Food->SetActorLocation(Cast<ABotTargetPoint>(BlackboardComp->GetValueAsObject("LocationToGo"))->GetActorLocation());
+			Character->DeposeFood(Cast<ABotTargetPoint>(BlackboardComp->GetValueAsObject("LocationToGo"))->GetActorLocation());
 			
 			//At this point, the task has been successfully completed
 			return EBTNodeResult::Succeeded;

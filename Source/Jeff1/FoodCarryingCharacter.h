@@ -43,6 +43,7 @@ public:
 
 	void CarryFood(AFood* food);
 	AFood* DropFood();
+	AFood* DeposeFood(FVector Location);
 
 	UCharacterMovementComponent* GetMoveComp(){return MovComp;}
 	USkeletalMeshSocket const* GetHand() {return Hand;}
