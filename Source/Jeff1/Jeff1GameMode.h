@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AiGoblinCharacter.h"
 #include "GameFramework/GameMode.h"
 #include "Jeff1GameMode.generated.h"
 
@@ -13,10 +14,15 @@ UCLASS()
 class JEFF1_API AJeff1GameMode : public AGameMode
 {
 	GENERATED_BODY()
+
+	UPROPERTY(VisibleDefaultsOnly)
+	FTimerHandle GoblinRespawnTimer;
 	
 protected:
 	UFUNCTION()
 	void SpawnNewGoblin();
+	UFUNCTION()
+	void SpawnNewGoblinWithTimer();
 
 	virtual void BeginPlay() override;
 
@@ -24,4 +30,7 @@ protected:
 	
 	public:
 	AJeff1GameMode();
+
+	UFUNCTION()
+	void DespawnGoblin(AAiGoblinCharacter* Goblin);
 };

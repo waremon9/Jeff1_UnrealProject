@@ -4,7 +4,7 @@
 #include "BTTaskDestroy.h"
 
 #include "AiGoblinController.h"
-#include "GameFramework/Character.h"
+#include "Jeff1GameMode.h"
 
 EBTNodeResult::Type UBTTaskDestroy::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
@@ -12,7 +12,7 @@ EBTNodeResult::Type UBTTaskDestroy::ExecuteTask(UBehaviorTreeComponent & OwnerCo
  
 	if (AICon)
 	{
-		AICon->GetCharacter()->Destroy();
+		GetWorld()->GetAuthGameMode<AJeff1GameMode>()->DespawnGoblin(Cast<AAiGoblinCharacter>(AICon->GetCharacter()));
 		
 		return EBTNodeResult::Succeeded;
 	}

@@ -40,7 +40,7 @@ void AJeff1GameMode::HandleMatchHasStarted()
 	
 	FActorSpawnParameters SpawnInfo;
 	GetWorld()->SpawnActor<AFood>(
-		GetWorld()->GetGameState<AJeff1GameState>()->GetFoodBP(),
+		Cast<AJeff1GameState>(GameState)->GetFoodBP(),
 		SpawnLocation,
 		FRotator::ZeroRotator,
 		SpawnInfo);
@@ -55,5 +55,29 @@ void AJeff1GameMode::SpawnNewGoblin()
 		FRotator::ZeroRotator,
 		SpawnInfo);
 
-	GetWorld()->GetGameState<AJeff1GameState>()->GoblinInMap++;
+	if(++Cast<AJeff1GameState>(GameState)->GoblinInMap<3)
+	{
+		SpawnNewGoblinWithTimer();
+	}
 }
+
+void AJeff1GameMode::SpawnNewGoblinWithTimer()
+{
+	GetWorldTimerManager().SetTimer(
+		GoblinRespawnTimer,
+		this,
+		&AJeff1GameMode::SpawnNewGoblin,
+		FMath::FRandRange(0,Cast<AJeff1GameState>(GameState)->GoblinRespawnMaxTime),
+		false);
+}
+
+void AJeff1GameMode::DespawnGoblin(AAiGoblinCharacter* Goblin)
+{
+	Goblin->Destroy();
+	if(--Cast<AJeff1GameState>(GameState)->GoblinInMap==Cast<AJeff1GameState>(GameState)->MaxGoblinOnMap)
+		SpawnNewGoblin();
+	else
+		SpawnNewGoblinWithTimer();
+}
+
+
