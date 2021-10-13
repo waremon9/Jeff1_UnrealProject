@@ -22,7 +22,7 @@ protected:
 	USkeletalMeshSocket const* Hand;
 
 	//Food getting carried
-	UPROPERTY(VisibleDefaultsOnly)
+	UPROPERTY(VisibleAnywhere)
 	AFood* Food;
 
 	//Base movespeed

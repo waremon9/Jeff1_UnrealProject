@@ -3,9 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Food.h"
 #include "FoodCarryingCharacter.h"
-#include "GameFramework/Character.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "AiGoblinCharacter.generated.h"
 
 UCLASS()
@@ -13,10 +12,21 @@ class JEFF1_API AAiGoblinCharacter : public AFoodCarryingCharacter
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere)
+	class UBehaviorTree* UsedBehaviourTree;
+	
 public:
+	UPROPERTY(EditAnywhere)
+	class UBehaviorTree* BTHandFree;
+	UPROPERTY(EditAnywhere)
+	class UBehaviorTree* BTCarryFood;
+
+	void ChooseRightBT();
+	
+	UBehaviorTree* GetUsedBehavioutTree(){return UsedBehaviourTree;}
+	
 	// Sets default values for this character's properties
 	AAiGoblinCharacter();
 	
-	UPROPERTY(EditAnywhere,Category="AI")
-	class UBehaviorTree* BehaviorTree;
+	virtual void BeginPlay() override;
 };

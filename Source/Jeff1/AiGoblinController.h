@@ -23,10 +23,6 @@ class JEFF1_API AAiGoblinController : public AAIController
 	/*Blackboard comp ref*/
 	UBlackboardComponent* BlackboardComp;
  
-	/*Blackboard keys*/
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	FName LocationToGoKey;
- 
 	/*----------Blackboard----------*/
  
 	/*Posses is executed when the character we want to control is spawned.
@@ -34,7 +30,6 @@ class JEFF1_API AAiGoblinController : public AAIController
 	virtual void OnPossess(APawn* InPawn) override;
  
 public:
- 
 	/*----------Constructor----------*/
 	AAiGoblinController();
  

@@ -18,9 +18,6 @@ AAiGoblinController::AAiGoblinController()
 	BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
  
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
- 
-	LocationToGoKey = "LocationToGo";
- 
 }
  
 void AAiGoblinController::OnPossess(APawn* InPawn)
@@ -32,16 +29,19 @@ void AAiGoblinController::OnPossess(APawn* InPawn)
  
 	if (AIChar)
 	{
+		AIChar->ChooseRightBT(); //set BT
+		
 		//If the blackboard is valid initialize the blackboard for the corresponding behavior tree
-		if (AIChar->BehaviorTree->BlackboardAsset)
+		if (AIChar->GetUsedBehavioutTree()->BlackboardAsset)
 		{
-			BlackboardComp->InitializeBlackboard(*(AIChar->BehaviorTree->BlackboardAsset));
+			BlackboardComp->InitializeBlackboard(*(AIChar->GetUsedBehavioutTree()->BlackboardAsset));
 		}
 
 		//get the starting point and ending point of goblin
 		BlackboardComp->SetValueAsObject("BaseLocation", GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetBaseLocation());
- 
+
 		//Start the behavior tree which corresponds to the specific character
-		BehaviorComp->StartTree(*AIChar->BehaviorTree);
+		BehaviorComp->StartTree(*AIChar->GetUsedBehavioutTree());
+		
 	}
 }
