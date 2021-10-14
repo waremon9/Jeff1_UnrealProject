@@ -59,13 +59,18 @@ AFood* AFoodCarryingCharacter::DropFood()
 
 AFood* AFoodCarryingCharacter::DeposeFood(FVector Location)
 {
-	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //Detach food from hand
-	Food->SetActorEnableCollision(true);
-	Food->SetActorLocation(Location);
-	AFood* TheItemToReturn = Food;
-	Food = nullptr;
-	MovComp->MaxWalkSpeed = MoveSpeed; //reset character speed
+	if(Food)
+	{
+		Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //Detach food from hand
+		Food->SetActorEnableCollision(true);
+		Food->SetActorLocation(Location);
+		AFood* TheItemToReturn = Food;
+		Food = nullptr;
+		MovComp->MaxWalkSpeed = MoveSpeed; //reset character speed
 
-	return TheItemToReturn;
+		return TheItemToReturn;
+	}
+	
+	return Food;
 }
 
