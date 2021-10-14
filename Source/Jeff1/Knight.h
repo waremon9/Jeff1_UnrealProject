@@ -23,6 +23,9 @@ class JEFF1_API AKnight : public AFoodCarryingCharacter
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* BoxInteract;
 
+	UPROPERTY(VisibleAnywhere)
+	UAnimBlueprint* AnimComp;
+
 	public:
 	AKnight();
 	

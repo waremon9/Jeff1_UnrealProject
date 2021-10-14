@@ -48,4 +48,5 @@ public:
 	UCharacterMovementComponent* GetMoveComp(){return MovComp;}
 	USkeletalMeshSocket const* GetHand() {return Hand;}
 	float GetMoveSpeed(){return MoveSpeed;}
+	bool IsCarryingFood(){return Food != nullptr;}
 };
