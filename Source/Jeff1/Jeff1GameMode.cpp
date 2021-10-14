@@ -26,6 +26,14 @@ void AJeff1GameMode::BeginPlay()
 	SpawnNewGoblin();
 	SpawnNewGoblin();
 	
+	FTimerDelegate TimerDel;
+	TimerDel.BindUFunction(this, FName("IncreaseMaxGoblinLimit"), 1);
+	
+	GetWorldTimerManager().SetTimer(
+		GoblinLimitIncreaseTimer,
+		TimerDel,
+		10.f,
+		false);
 }
 
 //Called once all begin play from placed actor are done to be sure AILocationManager ref has been given to the GameState
@@ -55,10 +63,10 @@ void AJeff1GameMode::SpawnNewGoblin()
 		FRotator::ZeroRotator,
 		SpawnInfo);
 
-	if(++Cast<AJeff1GameState>(GameState)->GoblinInMap<3)
-	{
+	if(++Cast<AJeff1GameState>(GameState)->GoblinInMap < Cast<AJeff1GameState>(GameState)->MaxGoblinOnMap)
 		SpawnNewGoblinWithTimer();
-	}
+	else
+		GetWorldTimerManager().ClearTimer(GoblinRespawnTimer);
 }
 
 void AJeff1GameMode::SpawnNewGoblinWithTimer()
@@ -71,6 +79,7 @@ void AJeff1GameMode::SpawnNewGoblinWithTimer()
 		false);
 }
 
+
 void AJeff1GameMode::DespawnGoblin(AAiGoblinCharacter* Goblin)
 {
 	Goblin->Destroy();
@@ -80,4 +89,13 @@ void AJeff1GameMode::DespawnGoblin(AAiGoblinCharacter* Goblin)
 		SpawnNewGoblinWithTimer();
 }
 
-
+void AJeff1GameMode::IncreaseMaxGoblinLimit(int Increase)
+{
+	UE_LOG(LogTemp,Display,TEXT("TIMER"));
+	if(Increase>0)
+	{
+		Cast<AJeff1GameState>(GameState)->MaxGoblinOnMap+=Increase;
+		SpawnNewGoblin();
+	}
+	
+}

@@ -15,7 +15,4 @@ AJeff1GameState::AJeff1GameState()
 	if (FoodBlueprint.Object){
 		FoodBP = (UClass*)FoodBlueprint.Object->GeneratedClass;
 	}
-	
-	UE_LOG(LogTemp,Error,TEXT("construct of game state"));
-
 }

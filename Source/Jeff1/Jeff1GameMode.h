@@ -17,12 +17,16 @@ class JEFF1_API AJeff1GameMode : public AGameMode
 
 	UPROPERTY(VisibleDefaultsOnly)
 	FTimerHandle GoblinRespawnTimer;
+	UPROPERTY(VisibleDefaultsOnly)
+	FTimerHandle GoblinLimitIncreaseTimer;
 	
 protected:
 	UFUNCTION()
 	void SpawnNewGoblin();
 	UFUNCTION()
 	void SpawnNewGoblinWithTimer();
+	UFUNCTION()
+	void IncreaseMaxGoblinLimit(int Increase);
 
 	virtual void BeginPlay() override;
 

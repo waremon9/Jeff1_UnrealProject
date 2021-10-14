@@ -18,17 +18,6 @@ void AAiLocationManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp,Error,TEXT("Begin of location manager"));
-
-
-	if(GetWorld()->GetGameState<AJeff1GameState>())
-	{
-		
 	GetWorld()->GetGameState<AJeff1GameState>()->SetAiLocationManager(this);
-	}else
-	{
-		
-		UE_LOG(LogTemp,Error,TEXT("NOPE"));
-	}
 }
 
