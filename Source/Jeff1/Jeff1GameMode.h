@@ -37,4 +37,10 @@ protected:
 
 	UFUNCTION()
 	void DespawnGoblin(AAiGoblinCharacter* Goblin);
+
+	UFUNCTION()
+	void CheckForWin();
+
+	UFUNCTION()
+	void SwitchLevel();
 };

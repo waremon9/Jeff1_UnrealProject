@@ -44,12 +44,14 @@ void AChest::Tick(float DeltaTime)
 	{
 		float Dist = FVector::Distance(Knight->GetActorLocation(), this->GetActorLocation());
 		float angle;
+
 		if(Dist<MinDistanceKnight) angle = ChestMaxAngle;
 		else if (Dist>MaxDistanceKnight) angle = 0;
 		else
 		{
 			angle = ChestMaxAngle * (1-(Dist-MinDistanceKnight) / (MaxDistanceKnight - MinDistanceKnight));
 		}
+
 		TopChest->SetRelativeRotation(FRotator(0,0,angle) + BaseTopRotation);
 	}
 }

@@ -10,6 +10,7 @@
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Jeff1GameMode.h"
 
 // Sets default values
 AKnight::AKnight()
@@ -132,6 +133,8 @@ void AKnight::InteractFoodInHand()
 			GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired++;
 			GetWorld()->GetGameState<AJeff1GameState>()->FoodInMap--;
 			
+			GetWorld()->GetAuthGameMode<AJeff1GameMode>()->CheckForWin();
+
 			return;
 		}
 	}

@@ -5,7 +5,9 @@
 
 #include "AiGoblinCharacter.h"
 #include "Jeff1GameState.h"
+#include "Jeff1GameInstance.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AJeff1GameMode::AJeff1GameMode()
@@ -98,4 +100,16 @@ void AJeff1GameMode::IncreaseMaxGoblinLimit(int Increase)
 		SpawnNewGoblin();
 	}
 	
+}void AJeff1GameMode::CheckForWin()
+{
+	if (Cast<AJeff1GameState>(GameState)->FoodRequired <= Cast<AJeff1GameState>(GameState)->FoodAcquired)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("C'est une win !!!"));
+		SwitchLevel();
+	}
+}
+
+void AJeff1GameMode::SwitchLevel()
+{
+	UGameplayStatics::OpenLevel(this, GetGameInstance<UJeff1GameInstance>()->GetNextLevelName(), true);
 }
