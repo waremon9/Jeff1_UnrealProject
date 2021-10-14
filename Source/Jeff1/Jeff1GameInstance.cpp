@@ -5,6 +5,12 @@
 
 FName UJeff1GameInstance::GetNextLevelName()
 {
-	return FName("GameMap");
+	return LevelNames[(++CurrentLevel)%LevelNames.Num()];
 }
 
+void UJeff1GameInstance::Init()
+{
+	UGameInstance::Init();
+
+	LevelNames.Add(FName("GameMap"));
+}

@@ -39,7 +39,7 @@ public:
 
 	int FoodInMap = 0;
 	int FoodAcquired = 0;
-	int FoodRequired = 1;
+	int FoodRequired = 5;
 	int GoblinInMap = 0;
 	int MaxGoblinOnMap = 2;
 	float GoblinRespawnMaxTime = 5.f;

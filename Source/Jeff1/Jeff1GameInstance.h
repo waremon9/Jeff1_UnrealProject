@@ -16,7 +16,10 @@ class JEFF1_API UJeff1GameInstance : public UGameInstance
 	
 public:
 	int CurrentLevel = 0;
+	TArray<FName> LevelNames;
 
 	UFUNCTION()
 	FName GetNextLevelName();
+
+	virtual void Init() override;
 };
