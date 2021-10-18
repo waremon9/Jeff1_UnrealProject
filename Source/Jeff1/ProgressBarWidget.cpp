@@ -16,7 +16,7 @@ void UProgressBarWidget::NativeConstruct()
 
 void UProgressBarWidget::UpdateProgressBar(int32 Value)
 {
-	if(CurrentFoodText && Value>=1)
+	if(CurrentFoodText)
 	{
 		//if for some reason the text is hidden, show it
 		if(CurrentFoodText->Visibility == ESlateVisibility::Hidden)

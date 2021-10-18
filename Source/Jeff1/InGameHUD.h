@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Jeff1GameState.h"
 #include "GameFramework/HUD.h"
 #include "ProgressBarWidget.h"
 #include "InGameHUD.generated.h"
@@ -32,6 +33,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 	TSubclassOf<UUserWidget> FoodWidgetClass;
+
+	AJeff1GameState* GameStateRef;
 
 private:
 	UProgressBarWidget* FoodWidget;

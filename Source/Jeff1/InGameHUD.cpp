@@ -21,6 +21,11 @@ void AInGameHUD::BeginPlay()
 			FoodWidget->AddToViewport();
 		}
 	}
+
+	//get game state ref
+	GameStateRef = GetWorld()->GetGameState<AJeff1GameState>();
+
+	FoodWidget->UpdateProgressBar(GameStateRef->GetFoodAcquired());
 }
 
 void AInGameHUD::Tick(float DeltaSeconds)

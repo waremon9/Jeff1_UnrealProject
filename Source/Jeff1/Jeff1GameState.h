@@ -40,6 +40,9 @@ public:
 	UFUNCTION()
 	TSubclassOf<class AFood> GetFoodBP(){return FoodBP;}
 
+	UFUNCTION()
+	int GetFoodAcquired();
+
 	int FoodInMap = 0;
 	int MaxFoodInMap = 5;
 	int FoodAcquired = 0;

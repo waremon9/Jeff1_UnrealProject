@@ -12,3 +12,8 @@ AJeff1GameState::AJeff1GameState()
 		FoodBP = (UClass*)FoodBlueprint.Object->GeneratedClass;
 	}
 }
+
+int AJeff1GameState::GetFoodAcquired()
+{
+	return FoodAcquired;
+}
