@@ -11,7 +11,14 @@ AFoodCarryingCharacter::AFoodCarryingCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+}
 
+void AFoodCarryingCharacter::Initialize()
+{
+	MovComp = Cast<UCharacterMovementComponent>(ACharacter::GetMovementComponent());
+	MovComp->MaxWalkSpeed = MoveSpeed;
+
+	Hand = this->GetMesh()->GetSocketByName("Right_Hand");
 }
 
 // Called when the game starts or when spawned
@@ -19,10 +26,7 @@ void AFoodCarryingCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	MovComp = Cast<UCharacterMovementComponent>(ACharacter::GetMovementComponent());
-	MovComp->MaxWalkSpeed = MoveSpeed;
-
-	Hand = this->GetMesh()->GetSocketByName("Right_Hand");
+	Initialize();
 }
 
 // Called every frame
@@ -40,8 +44,8 @@ void AFoodCarryingCharacter::CarryFood(AFood* food)
 	
 	if(Hand && MovComp)
 	{
-	Hand->AttachActor(Food, this->GetMesh()); //add food to hand socket
-	MovComp->MaxWalkSpeed = MoveSpeed/2.f; //reduce character speed
+		Hand->AttachActor(Food, this->GetMesh()); //add food to hand socket
+		MovComp->MaxWalkSpeed = MoveSpeed/2.f; //reduce character speed
 	}
 }
 

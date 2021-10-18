@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AiLocationManager.h"
 #include "GameFramework/GameState.h"
+#include "Manager/AiLocationManager.h"
+#include "Manager/GoblinManager.h"
 #include "Jeff1GameState.generated.h"
 
 /**
@@ -18,9 +19,9 @@ class JEFF1_API AJeff1GameState : public AGameState
 protected:
 	UPROPERTY(VisibleDefaultsOnly)
 	AAiLocationManager* AiLocationManager;
+	UPROPERTY(VisibleDefaultsOnly)
+	AGoblinManager* GoblinManager;
 	
-	//Goblin blueprint
-	TSubclassOf<class AAiGoblinCharacter> GoblinBP;
 	//Food blueprint
 	TSubclassOf<class AFood> FoodBP;
 
@@ -30,17 +31,21 @@ public:
 	UFUNCTION()
 	void SetAiLocationManager(AAiLocationManager* Ref){AiLocationManager = Ref;}
 	UFUNCTION()
-	AAiLocationManager* GetAiLocationManager(){return AiLocationManager;}
-
+	void SetGoblinManager(AGoblinManager* Ref){GoblinManager = Ref;}
 	UFUNCTION()
-	TSubclassOf<class AAiGoblinCharacter> GetGoblinBP(){return GoblinBP;}
+	AAiLocationManager* GetAiLocationManager(){return AiLocationManager;}
+	UFUNCTION()
+	AGoblinManager* GetGoblinManager(){return GoblinManager;}
+
 	UFUNCTION()
 	TSubclassOf<class AFood> GetFoodBP(){return FoodBP;}
 
 	int FoodInMap = 0;
+	int MaxFoodInMap = 5;
 	int FoodAcquired = 0;
 	int FoodRequired = 5;
 	int GoblinInMap = 0;
 	int MaxGoblinOnMap = 2;
 	float GoblinRespawnMaxTime = 5.f;
+	
 };

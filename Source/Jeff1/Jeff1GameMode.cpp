@@ -4,6 +4,7 @@
 #include "Jeff1GameMode.h"
 
 #include "AiGoblinCharacter.h"
+#include "AiGoblinController.h"
 #include "Jeff1GameState.h"
 #include "Jeff1GameInstance.h"
 #include "UObject/ConstructorHelpers.h"
@@ -24,18 +25,15 @@ void AJeff1GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//2 goblin appear at the start
-	SpawnNewGoblin();
-	SpawnNewGoblin();
-	
-	FTimerDelegate TimerDel;
-	TimerDel.BindUFunction(this, FName("IncreaseMaxGoblinLimit"), 1);
-	
-	GetWorldTimerManager().SetTimer(
-		GoblinLimitIncreaseTimer,
-		TimerDel,
-		10.f,
-		false);
+	Jeff1GameState = Cast<AJeff1GameState>(GameState);
+	if(!Jeff1GameState)
+	{
+		UGameViewportClient* const Viewport = GetWorld()->GetGameViewport();
+		if (Viewport)
+		{
+			Viewport->ConsoleCommand("quit");
+		}
+	}
 }
 
 //Called once all begin play from placed actor are done to be sure AILocationManager ref has been given to the GameState
@@ -54,55 +52,14 @@ void AJeff1GameMode::HandleMatchHasStarted()
 		SpawnLocation,
 		FRotator::ZeroRotator,
 		SpawnInfo);
-}
-
-void AJeff1GameMode::SpawnNewGoblin()
-{
-	FActorSpawnParameters SpawnInfo;
-	GetWorld()->SpawnActor<AAiGoblinCharacter>(
-		GetWorld()->GetGameState<AJeff1GameState>()->GetGoblinBP(),
-		GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetBaseLocation()->GetActorLocation(),
-		FRotator::ZeroRotator,
-		SpawnInfo);
-
-	if(++Cast<AJeff1GameState>(GameState)->GoblinInMap < Cast<AJeff1GameState>(GameState)->MaxGoblinOnMap)
-		SpawnNewGoblinWithTimer();
-	else
-		GetWorldTimerManager().ClearTimer(GoblinRespawnTimer);
-}
-
-void AJeff1GameMode::SpawnNewGoblinWithTimer()
-{
-	GetWorldTimerManager().SetTimer(
-		GoblinRespawnTimer,
-		this,
-		&AJeff1GameMode::SpawnNewGoblin,
-		FMath::FRandRange(0,Cast<AJeff1GameState>(GameState)->GoblinRespawnMaxTime),
-		false);
-}
-
-
-void AJeff1GameMode::DespawnGoblin(AAiGoblinCharacter* Goblin)
-{
-	Goblin->Destroy();
-	if(--Cast<AJeff1GameState>(GameState)->GoblinInMap==Cast<AJeff1GameState>(GameState)->MaxGoblinOnMap)
-		SpawnNewGoblin();
-	else
-		SpawnNewGoblinWithTimer();
-}
-
-void AJeff1GameMode::IncreaseMaxGoblinLimit(int Increase)
-{
-	UE_LOG(LogTemp,Display,TEXT("TIMER"));
-	if(Increase>0)
-	{
-		Cast<AJeff1GameState>(GameState)->MaxGoblinOnMap+=Increase;
-		SpawnNewGoblin();
-	}
 	
-}void AJeff1GameMode::CheckForWin()
+	//2 goblin appear at the start
+	Jeff1GameState->GetGoblinManager()->SpawnNewGoblin();
+}
+
+void AJeff1GameMode::CheckForWin()
 {
-	if (Cast<AJeff1GameState>(GameState)->FoodRequired <= Cast<AJeff1GameState>(GameState)->FoodAcquired)
+	if (Jeff1GameState->FoodRequired <= Jeff1GameState->FoodAcquired)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("C'est une win !!!"));
 		SwitchLevel();
