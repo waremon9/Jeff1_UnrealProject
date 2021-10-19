@@ -122,9 +122,9 @@ void AKnight::InteractFoodInHand()
 	TArray<AActor*> Actors;
 	BoxInteract->GetOverlappingActors(Actors);
 
-	for(AActor* chest : Actors)//for all overlapping actor
+	for(AActor* a : Actors)//for all overlapping actor
 	{
-		if(Cast<AChest>(chest))//if actor is AChest
+		if(Cast<AChest>(a))//if actor is AChest
 		{
 			MovComp->MaxWalkSpeed = MoveSpeed; //reset player speed
 			Food->Destroy(); //Food in chest so destroy
@@ -137,7 +137,14 @@ void AKnight::InteractFoodInHand()
 
 			return;
 		}
-	}
+		
+		if(Cast<ABotTargetPoint>(a))//if actor is food location
+			{
+				DeposeFood(a->GetActorLocation());
+
+				return;
+			}
+		}
 
 	//no chest to interact with, drop food on the floor
 	DropFood();

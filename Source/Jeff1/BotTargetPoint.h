@@ -3,15 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/TargetPoint.h"
+#include "GameFramework/Actor.h"
 #include "BotTargetPoint.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class JEFF1_API ABotTargetPoint : public ATargetPoint
+class JEFF1_API ABotTargetPoint : public AActor
 {
 	GENERATED_BODY()
-	
+
+public:
+	ABotTargetPoint();
 };

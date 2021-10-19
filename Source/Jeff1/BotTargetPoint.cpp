@@ -3,3 +3,6 @@
 
 #include "BotTargetPoint.h"
 
+ABotTargetPoint::ABotTargetPoint()
+{
+}
