@@ -26,12 +26,14 @@ protected:
 	AFood* Food;
 
 	//Base movespeed
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	float MoveSpeed = 900;
 	
 public:
 	// Sets default values for this character's properties
 	AFoodCarryingCharacter();
+
+	virtual void Initialize();
 
 protected:
 	// Called when the game starts or when spawned

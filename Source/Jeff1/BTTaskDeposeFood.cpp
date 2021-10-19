@@ -11,7 +11,7 @@
 EBTNodeResult::Type UBTTaskDeposeFood::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
 	AAiGoblinController* AICon = Cast<AAiGoblinController>(OwnerComp.GetAIOwner());
-	UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
+	UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComponent();
 	
 	if (AICon)
 	{

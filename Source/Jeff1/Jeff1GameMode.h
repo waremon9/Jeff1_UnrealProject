@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AiGoblinCharacter.h"
+#include "Jeff1GameState.h"
 #include "GameFramework/GameMode.h"
 #include "Jeff1GameMode.generated.h"
 
@@ -15,28 +16,16 @@ class JEFF1_API AJeff1GameMode : public AGameMode
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleDefaultsOnly)
-	FTimerHandle GoblinRespawnTimer;
-	UPROPERTY(VisibleDefaultsOnly)
-	FTimerHandle GoblinLimitIncreaseTimer;
+	UPROPERTY()
+	AJeff1GameState* Jeff1GameState;
 	
 protected:
-	UFUNCTION()
-	void SpawnNewGoblin();
-	UFUNCTION()
-	void SpawnNewGoblinWithTimer();
-	UFUNCTION()
-	void IncreaseMaxGoblinLimit(int Increase);
-
 	virtual void BeginPlay() override;
 
 	virtual void HandleMatchHasStarted() override;
 	
-	public:
+public:
 	AJeff1GameMode();
-
-	UFUNCTION()
-	void DespawnGoblin(AAiGoblinCharacter* Goblin);
 
 	UFUNCTION()
 	void CheckForWin();

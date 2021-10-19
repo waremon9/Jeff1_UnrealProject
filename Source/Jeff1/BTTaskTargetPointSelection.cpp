@@ -17,7 +17,7 @@ EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeCompon
 	if (AICon)
 	{
        
-		UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
+		UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComponent();
 		ABotTargetPoint* CurrentPoint = Cast<ABotTargetPoint>(BlackboardComp->GetValueAsObject("LocationToGo"));
  
 		TArray<ABotTargetPoint*> AvailableTargetPoints = GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetAllBotTarget();

@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BotBasePoint.h"
-#include "BotTargetPoint.h"
+#include "../BotBasePoint.h"
+#include "../BotTargetPoint.h"
 #include "GameFramework/Actor.h"
 #include "AiLocationManager.generated.h"
 

@@ -3,7 +3,7 @@
 
 #include "AiLocationManager.h"
 
-#include "Jeff1GameState.h"
+#include "../Jeff1GameState.h"
 
 // Sets default values
 AAiLocationManager::AAiLocationManager()

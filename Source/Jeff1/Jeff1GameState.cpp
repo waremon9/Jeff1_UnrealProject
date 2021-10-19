@@ -7,12 +7,13 @@
 
 AJeff1GameState::AJeff1GameState()
 {
-	static ConstructorHelpers::FObjectFinder<UBlueprint> GoblinBlueprint(TEXT("Blueprint'/Game/Assets/Goblin/BP_AiGoblinCharacter.BP_AiGoblinCharacter'"));
-	if (GoblinBlueprint.Object){
-		GoblinBP = (UClass*)GoblinBlueprint.Object->GeneratedClass;
-	}
 	static ConstructorHelpers::FObjectFinder<UBlueprint> FoodBlueprint(TEXT("Blueprint'/Game/Assets/BP_Food.BP_Food'"));
 	if (FoodBlueprint.Object){
 		FoodBP = (UClass*)FoodBlueprint.Object->GeneratedClass;
 	}
+}
+
+int AJeff1GameState::GetFoodAcquired()
+{
+	return FoodAcquired;
 }

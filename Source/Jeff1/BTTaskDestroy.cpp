@@ -12,7 +12,7 @@ EBTNodeResult::Type UBTTaskDestroy::ExecuteTask(UBehaviorTreeComponent & OwnerCo
  
 	if (AICon)
 	{
-		GetWorld()->GetAuthGameMode<AJeff1GameMode>()->DespawnGoblin(Cast<AAiGoblinCharacter>(AICon->GetCharacter()));
+		GetWorld()->GetGameState<AJeff1GameState>()->GetGoblinManager()->DespawnGoblin(Cast<AAiGoblinCharacter>(AICon->GetCharacter()));
 		
 		return EBTNodeResult::Succeeded;
 	}
