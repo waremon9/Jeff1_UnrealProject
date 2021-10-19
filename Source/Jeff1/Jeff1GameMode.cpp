@@ -100,16 +100,24 @@ void AJeff1GameMode::IncreaseMaxGoblinLimit(int Increase)
 		SpawnNewGoblin();
 	}
 	
-}void AJeff1GameMode::CheckForWin()
+}
+
+void AJeff1GameMode::CheckForWin()
 {
 	if (Cast<AJeff1GameState>(GameState)->FoodRequired <= Cast<AJeff1GameState>(GameState)->FoodAcquired)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("C'est une win !!!"));
-		SwitchLevel();
+		Restart();
 	}
 }
 
-void AJeff1GameMode::SwitchLevel()
+void AJeff1GameMode::Loose()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, TEXT("Perdu..."));
+	Restart();
+}
+
+void AJeff1GameMode::Restart()
 {
 	UGameplayStatics::OpenLevel(this, GetGameInstance<UJeff1GameInstance>()->GetNextLevelName(), true);
 }
