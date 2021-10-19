@@ -29,7 +29,10 @@ class JEFF1_API AKnight : public AFoodCarryingCharacter
 	public:
 	AKnight();
 	
+	virtual void BeginPlay() override;
+	
 	protected:
+
 
 	UFUNCTION()
 	void MoveForward(float value);
@@ -38,6 +41,9 @@ class JEFF1_API AKnight : public AFoodCarryingCharacter
 
 	UFUNCTION()
 	void Interact();
+
+	UFUNCTION()
+	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UFUNCTION()
 	void CameraZoomIn();

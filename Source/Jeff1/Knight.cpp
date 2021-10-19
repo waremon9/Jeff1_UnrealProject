@@ -5,6 +5,7 @@
 
 #include "Chest.h"
 #include "Food.h"
+#include "AiGoblinCharacter.h"
 #include "Jeff1GameState.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
@@ -44,6 +45,13 @@ AKnight::AKnight()
 	BoxInteract->SetupAttachment(RootComponent);
 }
 
+void AKnight::BeginPlay()
+{
+	AFoodCarryingCharacter::BeginPlay();
+
+	GetMesh()->OnComponentHit.AddDynamic(this, &AKnight::OnComponentHit);
+}
+
 void AKnight::MoveForward(float value)
 {
 	if ((Controller != nullptr) && (value != 0.0f))
@@ -77,6 +85,12 @@ void AKnight::Interact()
 {
 	if(Food) InteractFoodInHand();
 	else InteractNoFoodInHand();
+}
+
+void AKnight::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if ((AAiGoblinCharacter*) OtherActor->StaticClass() != nullptr)
+		GetWorld()->GetAuthGameMode<AJeff1GameMode>()->Loose();
 }
 
 void AKnight::CameraZoomIn()

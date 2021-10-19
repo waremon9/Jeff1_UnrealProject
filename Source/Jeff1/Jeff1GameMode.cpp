@@ -59,17 +59,17 @@ void AJeff1GameMode::CheckForWin()
 	if (Jeff1GameState->FoodRequired <= Jeff1GameState->FoodAcquired)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("C'est une win !!!"));
-		Restart();
+		NewLevel();
 	}
 }
 
 void AJeff1GameMode::Loose()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, TEXT("Perdu..."));
-	Restart();
+	NewLevel();
 }
 
-void AJeff1GameMode::Restart()
+void AJeff1GameMode::NewLevel()
 {
 	UGameplayStatics::OpenLevel(this, GetGameInstance<UJeff1GameInstance>()->GetNextLevelName(), true);
 }

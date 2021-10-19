@@ -34,5 +34,5 @@ public:
 	void Loose();
 
 	UFUNCTION()
-	void Restart();
+	void NewLevel();
 };
