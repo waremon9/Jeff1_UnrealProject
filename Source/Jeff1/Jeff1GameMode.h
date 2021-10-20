@@ -31,5 +31,8 @@ public:
 	void CheckForWin();
 
 	UFUNCTION()
-	void SwitchLevel();
+	void Loose();
+
+	UFUNCTION()
+	void NewLevel();
 };

@@ -51,10 +51,7 @@ void AJeff1GameMode::HandleMatchHasStarted()
 		Cast<AJeff1GameState>(GameState)->GetFoodBP(),
 		SpawnLocation,
 		FRotator::ZeroRotator,
-		SpawnInfo);
-	
-	//2 goblin appear at the start
-	Jeff1GameState->GetGoblinManager()->SpawnNewGoblin();
+		SpawnInfo);	
 }
 
 void AJeff1GameMode::CheckForWin()
@@ -62,11 +59,17 @@ void AJeff1GameMode::CheckForWin()
 	if (Jeff1GameState->FoodRequired <= Jeff1GameState->FoodAcquired)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("C'est une win !!!"));
-		SwitchLevel();
+		NewLevel();
 	}
 }
 
-void AJeff1GameMode::SwitchLevel()
+void AJeff1GameMode::Loose()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, TEXT("Perdu..."));
+	NewLevel();
+}
+
+void AJeff1GameMode::NewLevel()
 {
 	UGameplayStatics::OpenLevel(this, GetGameInstance<UJeff1GameInstance>()->GetNextLevelName(), true);
 }
