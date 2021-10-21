@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Perception/AISenseConfig_Sight.h"
 #include "AiGoblinController.generated.h"
 
 /**
@@ -20,6 +21,10 @@ protected:
 	class UBehaviorTree* BTHandFree;
 	UPROPERTY(EditDefaultsOnly)
 	class UBehaviorTree* BTCarryFood;
+	UPROPERTY(EditDefaultsOnly)
+	class UBehaviorTree* BTPursuit;
+
+	bool Test = false;
 	
 public:
 	
@@ -28,4 +33,6 @@ public:
 	
 	void SetFoodBT();
 	void SetHandFreeBT();
+
+	void OnDetectKnight(FVector KnightLocation);
 };

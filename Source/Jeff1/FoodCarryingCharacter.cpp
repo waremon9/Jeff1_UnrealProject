@@ -51,6 +51,7 @@ void AFoodCarryingCharacter::CarryFood(AFood* food)
 
 AFood* AFoodCarryingCharacter::DropFood()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 12.0f, FColor::Red, TEXT("Dropping Food"));
 	Food->StaticMesh->SetSimulatePhysics(true); //give physic back to carried food
 	Food->SetActorEnableCollision(true);
 	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //Detach food from hand
