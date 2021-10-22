@@ -11,10 +11,13 @@ UProgressBarWidget::UProgressBarWidget(const FObjectInitializer& ObjectInitializ
 void UProgressBarWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
+	FoodRequired = GetWorld()->GetGameState<AJeff1GameState>()->GetFoodRequired();
+	UE_LOG(LogTemp, Warning, TEXT("%d"), FoodRequired);
 }
 
 
-void UProgressBarWidget::UpdateProgressBar(int32 Value)
+void UProgressBarWidget::UpdateProgressBar(float Value)
 {
 	if(CurrentFoodText)
 	{
@@ -25,6 +28,8 @@ void UProgressBarWidget::UpdateProgressBar(int32 Value)
 		}
 		//update text with value passed as parameter
 		CurrentFoodText->SetText(FText::FromString(FString::FromInt(Value)));
+
+		FoodProgressBar->SetPercent((Value/FoodRequired));
 	}
 }
 

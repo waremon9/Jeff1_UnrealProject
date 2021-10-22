@@ -17,3 +17,8 @@ int AJeff1GameState::GetFoodAcquired()
 {
 	return FoodAcquired;
 }
+
+int AJeff1GameState::GetFoodRequired()
+{
+	return FoodRequired;
+}

@@ -41,12 +41,18 @@ public:
 	TSubclassOf<class AFood> GetFoodBP(){return FoodBP;}
 
 	UFUNCTION()
+	int GetFoodRequired();
+
+	UFUNCTION()
 	int GetFoodAcquired();
 
 	int FoodInMap = 0;
 	int MaxFoodInMap = 5;
 	int FoodAcquired = 0;
-	int FoodRequired = 5;
+	
+	UPROPERTY(VisibleAnywhere)
+		int FoodRequired = 5;
+	
 	int GoblinInMap = 0;
 	int MaxGoblinOnMap = 2;
 	float GoblinRespawnMaxTime = 5.f;

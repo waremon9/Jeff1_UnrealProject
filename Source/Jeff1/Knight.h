@@ -7,6 +7,7 @@
 #include "FoodCarryingCharacter.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
+#include "InGameHUD.h"
 #include "Knight.generated.h"
 
 UCLASS(config=Game)
@@ -33,7 +34,8 @@ class JEFF1_API AKnight : public AFoodCarryingCharacter
 	
 	protected:
 
-
+	AInGameHUD* InGameHUDRef;
+	
 	UFUNCTION()
 	void MoveForward(float value);
 	UFUNCTION()

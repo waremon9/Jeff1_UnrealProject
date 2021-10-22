@@ -24,7 +24,8 @@ void AInGameHUD::BeginPlay()
 
 	//get game state ref
 	GameStateRef = GetWorld()->GetGameState<AJeff1GameState>();
-
+    
+    //update progress bar once at start
 	FoodWidget->UpdateProgressBar(GameStateRef->GetFoodAcquired());
 }
 
@@ -38,7 +39,7 @@ void AInGameHUD::DrawHUD()
 	Super::DrawHUD();
 }
 
-void AInGameHUD::UpdateProgressBar(int32 Value)
+void AInGameHUD::UpdateProgressBar(float Value)
 {
 	if(FoodWidget)
 	{

@@ -50,6 +50,10 @@ void AKnight::BeginPlay()
 	AFoodCarryingCharacter::BeginPlay();
 
 	GetMesh()->OnComponentHit.AddDynamic(this, &AKnight::OnComponentHit);
+
+	//ref
+	InGameHUDRef = Cast<AInGameHUD>(UGameplayStatics::GetPlayerController(this,0)->GetHUD());
+	
 }
 
 void AKnight::MoveForward(float value)
@@ -148,6 +152,9 @@ void AKnight::InteractFoodInHand()
 			GetWorld()->GetGameState<AJeff1GameState>()->FoodInMap--;
 			
 			GetWorld()->GetAuthGameMode<AJeff1GameMode>()->CheckForWin();
+		
+			//TODO: MAKE THIS A DELEGATE
+			InGameHUDRef->UpdateProgressBar(GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired);
 
 			return;
 		}

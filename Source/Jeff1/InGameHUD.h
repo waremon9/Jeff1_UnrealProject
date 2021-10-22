@@ -26,7 +26,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
-		void UpdateProgressBar(int32 Value);
+		void UpdateProgressBar(float Value);
 
 	UFUNCTION()
 		void ResetProgressBar();

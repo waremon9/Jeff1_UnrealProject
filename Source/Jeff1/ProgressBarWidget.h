@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Jeff1GameState.h"
 #include "Blueprint/UserWidget.h"
 #include "Runtime/UMG/Public/UMG.h"
 #include "ProgressBarWidget.generated.h"
@@ -15,18 +16,24 @@ class JEFF1_API UProgressBarWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+protected:
+	float FoodRequired;
+
 public:
 	//Widget constructor is not empty, it takes initializer as parameter
 	UProgressBarWidget(const FObjectInitializer& ObjectInitializer);
 
-	//basicaly a begingplay ==> for initialization purposes
+	//basically a begingplay ==> for initialization purposes
 	virtual void NativeConstruct() override;
 
-	void UpdateProgressBar(int32 Value);
+	void UpdateProgressBar(float Value);
 
 	void ResetProgressBar();
 
-	//bindwidget enables binding by name, so no instanciate on this
+	//bindwidget enables binding by name, so no instantiate on this
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	class UTextBlock* CurrentFoodText;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
+	class UProgressBar* FoodProgressBar;
 };
