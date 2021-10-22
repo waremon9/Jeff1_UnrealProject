@@ -28,7 +28,11 @@ void AAiGoblinController::SetHandFreeBT()
 void AAiGoblinController::OnDetectKnight(FVector KnightLocation)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "A Goblin saw the Knight ! (\"ondetect\"");
+	
 	GetPawn<AAiGoblinCharacter>()->SetWatchForKnight(false);
-	RunBehaviorTree(BTPursuit);
+	
 	Blackboard->SetValueAsObject("BaseLocation", GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetBaseLocation());
+	Blackboard->SetValueAsVector("KnightLocation", KnightLocation);
+	
+	RunBehaviorTree(BTPursuit);
 }

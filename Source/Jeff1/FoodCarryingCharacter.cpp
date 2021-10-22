@@ -78,4 +78,3 @@ AFood* AFoodCarryingCharacter::DeposeFood(FVector Location)
 	
 	return Food;
 }
-

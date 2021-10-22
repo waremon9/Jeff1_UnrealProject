@@ -18,7 +18,8 @@ EBTNodeResult::Type UBTTaskDropFood::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 
 		if (Character && BlackboardComp)
 		{
-			BlackboardComp->SetValueAsVector("FoodLocation", Character->GetActorLocation());
+			if(Character->IsCarryingFood())
+				BlackboardComp->SetValueAsVector("FoodLocation", Character->DropFood()->GetActorLocation());
 
 			//At this point, the task has been successfully completed
 			return EBTNodeResult::Succeeded;
