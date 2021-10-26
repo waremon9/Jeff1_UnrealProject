@@ -2,6 +2,7 @@
 
 
 #include "InGameHUD.h"
+#include "Knight.h"
 
 AInGameHUD::AInGameHUD()
 {
@@ -27,7 +28,27 @@ void AInGameHUD::BeginPlay()
     
     //update progress bar once at start
 	FoodWidget->UpdateProgressBar(GameStateRef->GetFoodAcquired());
+
+	//bind to delegate
+	//THIS CAUSES THE CRASH
+	KnightRef = Cast<AKnight>(GetWorld()->GetFirstPlayerController()->GetCharacter());
+	if(KnightRef)
+	{
+		KnightRef->Knight_OnFoodAcquired.AddDynamic(this, &AInGameHUD::RespondToFoodAcquiredDelegate);
+	}
+	
+	
 }
+
+//doublon update progress bar
+void AInGameHUD::RespondToFoodAcquiredDelegate(float Value)
+{
+	if(FoodWidget)
+	{
+		FoodWidget->UpdateProgressBar(Value);
+	}
+}
+
 
 void AInGameHUD::Tick(float DeltaSeconds)
 {

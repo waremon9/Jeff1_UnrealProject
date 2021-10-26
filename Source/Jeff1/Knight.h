@@ -8,6 +8,7 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
 #include "InGameHUD.h"
+#include "Delegates/Delegate.h"
 #include "Knight.generated.h"
 
 UCLASS(config=Game)
@@ -27,17 +28,23 @@ class JEFF1_API AKnight : public AFoodCarryingCharacter
 	UPROPERTY(VisibleAnywhere)
 	UAnimBlueprint* AnimComp;
 
-	public:
+public:
 	AKnight();
 	
 	virtual void BeginPlay() override;
+
+	//delegate on foodacquired
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FKnightFoodAcquired, float, Value);
+
+	FKnightFoodAcquired Knight_OnFoodAcquired;
 	
-	protected:
+protected:
 
 	AInGameHUD* InGameHUDRef;
 	
 	UFUNCTION()
 	void MoveForward(float value);
+	
 	UFUNCTION()
 	void MoveRight(float value);
 

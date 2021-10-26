@@ -43,6 +43,10 @@ AKnight::AKnight()
 	//Box for interacting with food
 	BoxInteract = CreateDefaultSubobject<UBoxComponent>("BoxInteract");
 	BoxInteract->SetupAttachment(RootComponent);
+
+	//event on food acquired
+	//Knight_OnFoodAcquired.AddDynamic(InGameHUDRef, &AInGameHUD::RespondToFoodAcquiredDelegate);
+	//this is bound in InGameHUD instead
 }
 
 void AKnight::BeginPlay()
@@ -53,6 +57,7 @@ void AKnight::BeginPlay()
 
 	//ref
 	InGameHUDRef = Cast<AInGameHUD>(UGameplayStatics::GetPlayerController(this,0)->GetHUD());
+
 	
 }
 
@@ -154,8 +159,15 @@ void AKnight::InteractFoodInHand()
 			GetWorld()->GetAuthGameMode<AJeff1GameMode>()->CheckForWin();
 		
 			//TODO: MAKE THIS A DELEGATE
-			InGameHUDRef->UpdateProgressBar(GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired);
+			//InGameHUDRef->UpdateProgressBar(GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired);
 
+			//only execute if bound (meaning 1 entity is currently listening to this delegate)
+			if(Knight_OnFoodAcquired.IsBound())
+			{
+				//broadcast delegate and pass foodacquired
+				Knight_OnFoodAcquired.Broadcast(GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired);
+			}
+			
 			return;
 		}
 		
