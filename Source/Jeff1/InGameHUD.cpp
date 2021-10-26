@@ -30,25 +30,14 @@ void AInGameHUD::BeginPlay()
 	FoodWidget->UpdateProgressBar(GameStateRef->GetFoodAcquired());
 
 	//bind to delegate
-	//THIS CAUSES THE CRASH
 	KnightRef = Cast<AKnight>(GetWorld()->GetFirstPlayerController()->GetCharacter());
 	if(KnightRef)
 	{
-		KnightRef->Knight_OnFoodAcquired.AddDynamic(this, &AInGameHUD::RespondToFoodAcquiredDelegate);
+		KnightRef->Knight_OnFoodAcquired.AddDynamic(this, &AInGameHUD::UpdateProgressBar);
 	}
 	
 	
 }
-
-//doublon update progress bar
-void AInGameHUD::RespondToFoodAcquiredDelegate(float Value)
-{
-	if(FoodWidget)
-	{
-		FoodWidget->UpdateProgressBar(Value);
-	}
-}
-
 
 void AInGameHUD::Tick(float DeltaSeconds)
 {

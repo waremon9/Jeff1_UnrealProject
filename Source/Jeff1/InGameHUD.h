@@ -34,9 +34,6 @@ public:
 	UFUNCTION()
 		void ResetProgressBar();
 
-	UFUNCTION()
-		void RespondToFoodAcquiredDelegate(float Value);
-
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 		TSubclassOf<UUserWidget> FoodWidgetClass;
 

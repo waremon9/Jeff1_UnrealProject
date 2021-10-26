@@ -36,6 +36,7 @@ public:
 	//delegate on foodacquired
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FKnightFoodAcquired, float, Value);
 
+	//event name
 	FKnightFoodAcquired Knight_OnFoodAcquired;
 	
 protected:
