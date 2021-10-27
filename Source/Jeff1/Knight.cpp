@@ -11,6 +11,7 @@
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "BotTargetPoint.h"
 #include "Jeff1GameMode.h"
 
 // Sets default values
@@ -167,7 +168,7 @@ void AKnight::InteractFoodInHand()
 		
 		if(Cast<ABotTargetPoint>(a))//if actor is food location
 			{
-				DeposeFood(a->GetActorLocation());
+				DeposeFood(Cast<ABotTargetPoint>(a)->GetFoodLocation());
 
 				return;
 			}

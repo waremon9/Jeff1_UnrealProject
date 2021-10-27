@@ -13,7 +13,18 @@ UCLASS()
 class JEFF1_API ABotTargetPoint : public AActor
 {
 	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere)
+	USceneComponent* RootScene;
+	
+	UPROPERTY(EditAnywhere)
+	USceneComponent* FoodLocation;
+	
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* StaticMesh;
 
 public:
 	ABotTargetPoint();
+
+	FVector GetFoodLocation();
 };
