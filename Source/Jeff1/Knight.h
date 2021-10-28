@@ -38,11 +38,11 @@ public:
 
 	//delegate on foodacquired
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FKnightFoodAcquired, float, Value);
-
-	//event name
-	FKnightFoodAcquired Knight_OnFoodAcquired;
 	
 protected:
+
+	//event name
+	FKnightFoodAcquired KnightOnFoodAcquired;
 
 	AInGameHUD* InGameHUDRef;
 	
@@ -79,6 +79,8 @@ protected:
 	public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	FKnightFoodAcquired* GetKnightOnFoodAcquired();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
