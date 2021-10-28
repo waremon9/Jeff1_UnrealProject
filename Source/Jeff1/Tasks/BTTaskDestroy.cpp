@@ -3,8 +3,8 @@
 
 #include "BTTaskDestroy.h"
 
-#include "AiGoblinController.h"
-#include "Jeff1GameMode.h"
+#include "../AiGoblinController.h"
+#include "../Jeff1GameMode.h"
 
 EBTNodeResult::Type UBTTaskDestroy::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {

@@ -3,8 +3,8 @@
 
 #include "BTTaskWatchesAgain.h"
 
-#include "AiGoblinCharacter.h"
-#include "AiGoblinController.h"
+#include "../AiGoblinCharacter.h"
+#include "../AiGoblinController.h"
 
 EBTNodeResult::Type UBTTaskWatchesAgain::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {

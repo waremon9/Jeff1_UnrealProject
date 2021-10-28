@@ -3,8 +3,8 @@
 
 #include "BTTaskSetPursuitMode.h"
 
-#include "AiGoblinCharacter.h"
-#include "AiGoblinController.h"
+#include "../AiGoblinCharacter.h"
+#include "../AiGoblinController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 
