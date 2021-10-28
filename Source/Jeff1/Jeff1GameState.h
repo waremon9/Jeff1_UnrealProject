@@ -53,7 +53,8 @@ public:
 	
 	UPROPERTY(VisibleAnywhere)
 		int FoodRequired = 5;
-	
+
+	TArray<AAiGoblinCharacter*> GoblinArray;
 	int GoblinInMap = 0;
 	int MaxGoblinOnMap = 2;
 	float GoblinRespawnMaxTime = 5.f;

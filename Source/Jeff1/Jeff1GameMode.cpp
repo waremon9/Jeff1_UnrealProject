@@ -102,4 +102,9 @@ void AJeff1GameMode::EndGame()
 {
 	GameEnded = true;
 	GetWorld()->GetFirstPlayerController()->GetCharacter()->DisableInput(GetWorld()->GetFirstPlayerController());
+	for(AAiGoblinCharacter* g : Jeff1GameState->GoblinArray)
+	{
+		g->GetController()->UnPossess();
+	}
+	GetWorld()->GetFirstPlayerController()->SetShowMouseCursor(true);
 }
