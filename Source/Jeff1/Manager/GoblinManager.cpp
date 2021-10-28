@@ -75,6 +75,7 @@ void AGoblinManager::SpawnNewGoblin()
 	}
 
 	Jeff1GameState->GoblinInMap++;
+	Jeff1GameState->GoblinArray.Add(Goblin);
 
 	if(Jeff1GameState->GoblinInMap < Jeff1GameState->MaxGoblinOnMap)
 	{
@@ -100,6 +101,7 @@ void AGoblinManager::SpawnNewGoblinWithTimer()
 
 void AGoblinManager::DespawnGoblin(AAiGoblinCharacter* Goblin)
 {
+	Jeff1GameState->GoblinArray.Remove(Goblin);
 	Goblin->Destroy();
 	Jeff1GameState->GoblinInMap--;
 	if(Jeff1GameState->GoblinInMap==Jeff1GameState->MaxGoblinOnMap)
