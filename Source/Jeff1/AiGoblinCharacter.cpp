@@ -20,11 +20,13 @@ void AAiGoblinCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Knight = GetWorld()->GetFirstPlayerController()->GetPawn<AKnight>();
+	bIsMovingTowards = false;
+	bIsWatchingForKnight = true;
 }
 
-void AAiGoblinCharacter::Tick(float DeltaSeconds)
+void AAiGoblinCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaSeconds);
+	Super::Tick(DeltaTime);
 	
 	if(!Knight)
 	{
@@ -32,24 +34,22 @@ void AAiGoblinCharacter::Tick(float DeltaSeconds)
 		return;
 	}
 
-	if(!WatchesForKnight)
-		return;
+	if(bIsMovingTowards) AddMovementInput(KnightDirection, DeltaTime);
 	
+	if(bIsWatchingForKnight) WatchForKnight();
+}
+
+void AAiGoblinCharacter::WatchForKnight() const
+{
 	FVector VGobToKnight = Knight->GetActorLocation()-GetActorLocation();
 
 	//Distance check
 	if(VGobToKnight.Size() > DistanceSight)
 		return;
 
-	if(false)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "The Knight is within the distance");
-
 	//Side sight check
 	if(FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(VGobToKnight, GetActorForwardVector()))) > SideSight / 2)
 		return;
-	
-	if(false)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "The Knight is in the correct direction");
 
 	//Obstacle check
 	FCollisionQueryParams TraceParams(TEXT("TraceActor"), true, this);
@@ -64,7 +64,7 @@ void AAiGoblinCharacter::Tick(float DeltaSeconds)
 											Knight->GetActorLocation(),
 											ECC_Visibility,
 											TraceParams))
-		return;
+												return;
 	
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "There's no obstacle");
 	
@@ -72,9 +72,25 @@ void AAiGoblinCharacter::Tick(float DeltaSeconds)
 	GetController<AAiGoblinController>()->OnDetectKnight(Knight->GetActorLocation());
 }
 
+void AAiGoblinCharacter::SetWatchingForKnight(bool _Value)
+{
+	bIsWatchingForKnight = _Value;
+}
+
+void AAiGoblinCharacter::SetMovingTowards(const FVector& _KnightDirection)
+{
+	KnightDirection = _KnightDirection;
+	bIsMovingTowards = true;
+}
+
+void AAiGoblinCharacter::StopMovingTowards()
+{
+	bIsMovingTowards = false;
+}
+
 float AAiGoblinCharacter::GetDistanceSight() const
 {
-	return  DistanceSight;
+	return DistanceSight;
 }
 
 float AAiGoblinCharacter::GetSideSight() const
@@ -85,9 +101,4 @@ float AAiGoblinCharacter::GetSideSight() const
 AKnight* AAiGoblinCharacter::GetTarget() const
 {
 	return Knight;
-}
-
-void AAiGoblinCharacter::SetWatchForKnight(bool _value)
-{
-	WatchesForKnight = _value;
 }

@@ -3,8 +3,8 @@
 
 #include "BTTaskPreparePath.h"
 
-#include "AiGoblinCharacter.h"
-#include "AiGoblinController.h"
+#include "../AiGoblinCharacter.h"
+#include "../AiGoblinController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 EBTNodeResult::Type UBTTaskPreparePath::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
@@ -18,11 +18,12 @@ EBTNodeResult::Type UBTTaskPreparePath::ExecuteTask(UBehaviorTreeComponent & Own
 
 		if (Character && BlackboardComp)
 		{
-			const FVector location  = Character->GetActorLocation();
-			const FVector direction = BlackboardComp->GetValueAsVector("KnightDirection");
-			const float speed = Character->GetMoveSpeed();
-			
-			BlackboardComp->SetValueAsVector("KnightLocation", (location + (direction * speed * 3000.0f)));
+			FVector KnightDirection = BlackboardComp->GetValueAsVector("KnightDirection");
+			KnightDirection.Normalize();
+			Character->SetMovingTowards(KnightDirection);
+
+			//Calling AAiGoblinCharacter::MoveTowards without looping
+			Character->GetWorldTimerManager().SetTimer(TimerHandle, Character, &AAiGoblinCharacter::StopMovingTowards, 3.f, false);
 			
 			//At this point, the task has been successfully completed
 			return EBTNodeResult::Succeeded;

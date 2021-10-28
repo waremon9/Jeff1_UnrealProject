@@ -3,8 +3,8 @@
 
 #include "BTTaskGrabFood.h"
 
-#include "AiGoblinCharacter.h"
-#include "AiGoblinController.h"
+#include "../AiGoblinCharacter.h"
+#include "../AiGoblinController.h"
 
 EBTNodeResult::Type UBTTaskGrabFood::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {

@@ -2,9 +2,9 @@
 
 
 #include "BTTaskTargetPointSelection.h"
-#include "BotTargetPoint.h"
-#include "AIGoblinController.h"
-#include "Jeff1GameState.h"
+#include "../BotTargetPoint.h"
+#include "../AIGoblinController.h"
+#include "../Jeff1GameState.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
