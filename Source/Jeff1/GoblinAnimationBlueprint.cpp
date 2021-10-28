@@ -11,16 +11,41 @@ UGoblinAnimationBlueprint::UGoblinAnimationBlueprint()
 	Speed = 0;
 }
 
+void UGoblinAnimationBlueprint::NativeBeginPlay()
+{
+	Super::NativeBeginPlay();
+
+	AActor* OwningActor = GetOwningActor();
+	if(OwningActor)
+	{
+		Goblin = Cast<AAiGoblinCharacter>(OwningActor);
+		if(Goblin==nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Goblin anim bp can't get owning goblin"));
+		}
+		else
+		{
+			if(Goblin->GetMoveComp())
+			{
+				MaxSpeed = Goblin->GetMoveComp()->GetMaxSpeed();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Goblin anim bp can't get owning goblin Mov comp"));
+			}
+		}
+	}
+}
+
 void UGoblinAnimationBlueprint::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	AActor* OwningActor = GetOwningActor();
-
-	if(OwningActor && Cast<AAiGoblinCharacter>(OwningActor) && Cast<AAiGoblinCharacter>(OwningActor)->GetMoveComp())
+	if(Goblin)
 	{
-		Speed = OwningActor->GetVelocity().Size() / Cast<AAiGoblinCharacter>(OwningActor)->GetMoveComp()->MaxWalkSpeed;
+		//update variable used by anim bp
+		Speed = Goblin->GetVelocity().Size() / MaxSpeed;
 
-		CarryFood = Cast<AAiGoblinCharacter>(OwningActor)->IsCarryingFood();
+		CarryFood = Goblin->IsCarryingFood();
 	}
 }

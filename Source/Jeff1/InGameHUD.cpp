@@ -35,9 +35,16 @@ void AInGameHUD::BeginPlay()
 
 	//get game state ref
 	GameStateRef = GetWorld()->GetGameState<AJeff1GameState>();
+	if(GameStateRef==nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GameHUD can't get GameState"));
+	}
+	else
+	{
+	    //update progress bar once at start
+		FoodWidget->UpdateProgressBar(GameStateRef->GetFoodAcquired());
+	}
     
-    //update progress bar once at start
-	FoodWidget->UpdateProgressBar(GameStateRef->GetFoodAcquired());
 
 	//bind to delegate
 	KnightRef = Cast<AKnight>(GetWorld()->GetFirstPlayerController()->GetCharacter());
@@ -47,16 +54,6 @@ void AInGameHUD::BeginPlay()
 	}
 	
 	
-}
-
-void AInGameHUD::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-}
-
-void AInGameHUD::DrawHUD()
-{
-	Super::DrawHUD();
 }
 
 void AInGameHUD::UpdateProgressBar(float Value)

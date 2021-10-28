@@ -29,7 +29,10 @@ void AFood::BeginPlay()
 		
 		//Adjust mesh size
 		StaticMesh->SetWorldScale3D(StaticMesh->GetComponentScale() / ((Max.X - Min.X) / SizeGoal));
-
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Food mesh array for food bp is empty"));
 	}
 }
 

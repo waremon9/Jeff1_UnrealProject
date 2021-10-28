@@ -23,12 +23,8 @@ class JEFF1_API AInGameHUD : public AHUD
 public:
 	AInGameHUD();
 
-	virtual void DrawHUD() override;
-
 	virtual void BeginPlay() override;
-
-	virtual void Tick(float DeltaSeconds) override;
-
+	
 	UFUNCTION()
 		void UpdateProgressBar(float Value);
 
@@ -41,6 +37,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 	TSubclassOf<UUserWidget> FaceCameraWidgetClass;
 
+	UPROPERTY()
 	AJeff1GameState* GameStateRef;
 
 protected:

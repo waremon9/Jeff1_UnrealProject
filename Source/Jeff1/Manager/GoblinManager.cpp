@@ -17,23 +17,33 @@ AGoblinManager::AGoblinManager()
 void AGoblinManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Jeff1GameState = GetWorld()->GetGameState<AJeff1GameState>();
+
+
+	if(Jeff1GameState==nullptr)
+	{
+		return;
+	}
 	
-	GetWorld()->GetGameState<AJeff1GameState>()->SetGoblinManager(this);
-	
+	//Give ref to GameState
+	Jeff1GameState->SetGoblinManager(this);
+
+	//Allow passing variable to function in timer
 	FTimerDelegate TimerDel;
 	TimerDel.BindUFunction(this, FName("IncreaseMaxGoblinLimit"), 1);
 
+	//Set timer for max goblin increase
 	GetWorldTimerManager().SetTimer(
 		GoblinLimitIncreaseTimer,
 		TimerDel,
-		10.f,
+		60.f,
 		false);
 }
 
+//Spawn a new goblin and give it the right BT
 void AGoblinManager::SpawnNewGoblin()
-{
-	AJeff1GameState* Jeff1GameState = GetWorld()->GetGameState<AJeff1GameState>();
-
+{	
 	FActorSpawnParameters SpawnInfo;
 	AAiGoblinCharacter* Goblin = GetWorld()->SpawnActor<AAiGoblinCharacter>(
 		GoblinBP,
@@ -42,19 +52,26 @@ void AGoblinManager::SpawnNewGoblin()
 		SpawnInfo);
 
 	AAiGoblinController* GoblinController = Cast<AAiGoblinController>(Goblin->Controller);
-	if(Jeff1GameState->FoodInMap < Jeff1GameState->MaxFoodInMap)
+
+	if(GoblinController)
 	{
-		GoblinController->SetFoodBT();
-		
-		TSubclassOf<AFood> FoodBp = Jeff1GameState->GetFoodBP();
-		AFood* CreatedFood = GetWorld()->SpawnActor<AFood>(FoodBp, FVector::ZeroVector, FRotator::ZeroRotator, SpawnInfo);
-		
-		Goblin->CarryFood(CreatedFood);
-		Jeff1GameState->FoodInMap++;
-	}
-	else
-	{
-		GoblinController->SetHandFreeBT();
+		//check food in map
+		if(Jeff1GameState->FoodInMap < Jeff1GameState->MaxFoodInMap)
+		{
+			//Create new food and give it to goblin
+			GoblinController->SetFoodBT();
+	
+			TSubclassOf<AFood> FoodBp = Jeff1GameState->GetFoodBP();
+			AFood* CreatedFood = GetWorld()->SpawnActor<AFood>(FoodBp, FVector::ZeroVector, FRotator::ZeroRotator, SpawnInfo);
+	
+			Goblin->CarryFood(CreatedFood);
+			Jeff1GameState->FoodInMap++;
+		}
+		else
+		{
+			//Give goblin BT for not carrying food
+			GoblinController->SetHandFreeBT();
+		}
 	}
 
 	Jeff1GameState->GoblinInMap++;
@@ -69,10 +86,9 @@ void AGoblinManager::SpawnNewGoblin()
 	}
 }
 
+//Spawn a new goblin after random time
 void AGoblinManager::SpawnNewGoblinWithTimer()
 {
-	AJeff1GameState* Jeff1GameState = GetWorld()->GetGameState<AJeff1GameState>();
-
 	GetWorldTimerManager().SetTimer(
 		GoblinRespawnTimer,
 		this,
@@ -84,8 +100,6 @@ void AGoblinManager::SpawnNewGoblinWithTimer()
 
 void AGoblinManager::DespawnGoblin(AAiGoblinCharacter* Goblin)
 {
-	AJeff1GameState* Jeff1GameState = GetWorld()->GetGameState<AJeff1GameState>();
-
 	Goblin->Destroy();
 	Jeff1GameState->GoblinInMap--;
 	if(Jeff1GameState->GoblinInMap==Jeff1GameState->MaxGoblinOnMap)
@@ -96,8 +110,6 @@ void AGoblinManager::DespawnGoblin(AAiGoblinCharacter* Goblin)
 
 void AGoblinManager::IncreaseMaxGoblinLimit(int Increase)
 {
-	AJeff1GameState* Jeff1GameState = GetWorld()->GetGameState<AJeff1GameState>();
-
 	if(Increase>0)
 	{
 		Jeff1GameState->MaxGoblinOnMap+=Increase;
