@@ -44,14 +44,18 @@ void AJeff1GameMode::HandleMatchHasStarted()
 	AJeff1GameState* GM = Cast<AJeff1GameState>(GameState);
 	TArray<AActor*> Points = GM->GetAiLocationManager()->GetAllBotTarget();
 
-	FVector SpawnLocation = Points[FMath::RandRange(0, Points.Num() - 1)]->GetActorLocation();
+	ABotTargetPoint* TargetPoint = Cast<ABotTargetPoint>(Points[FMath::RandRange(0, Points.Num() - 1)]);
 	
 	FActorSpawnParameters SpawnInfo;
-	GetWorld()->SpawnActor<AFood>(
+	AFood* f = GetWorld()->SpawnActor<AFood>(
 		Cast<AJeff1GameState>(GameState)->GetFoodBP(),
-		SpawnLocation,
+		TargetPoint->GetFoodLocation(),
 		FRotator::ZeroRotator,
-		SpawnInfo);	
+		SpawnInfo);
+
+	f->SetActorEnableCollision(false);
+	f->StaticMesh->SetSimulatePhysics(false);
+	TargetPoint->SetFoodOn(f);
 }
 
 void AJeff1GameMode::CheckForWin()

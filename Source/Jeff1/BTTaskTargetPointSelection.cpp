@@ -36,7 +36,7 @@ EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeCompon
 				UE_LOG(LogTemp, Error, TEXT("Bad cast in TaskTargetPoint"));
 				return EBTNodeResult::Failed;
 			}
-		} while (CurrentPoint == NextTargetPoint);
+		} while (CurrentPoint == NextTargetPoint || NextTargetPoint->IsFoodOn());
  
 		//Update the next location in the Blackboard so the bot can move to the next Blackboard value
 		BlackboardComp->SetValueAsObject("LocationToGo", NextTargetPoint);

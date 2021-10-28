@@ -124,13 +124,30 @@ void AKnight::InteractNoFoodInHand()
 	TArray<AActor*> Actors;
 	BoxInteract->GetOverlappingActors(Actors);
 
-	for(AActor* food : Actors)//for all overlapping actor
+	for(AActor* a : Actors)//for all overlapping actor
 	{
-		if(Cast<AFood>(food))//if actor is AFood
+		if(Cast<ABotTargetPoint>(a))//if actor is AFood
 		{
 			if(Hand)//Hand socket isn't null
 			{
-				CarryFood(Cast<AFood>(food));
+				if(Cast<ABotTargetPoint>(a)->IsFoodOn())
+				{
+					CarryFood(Cast<ABotTargetPoint>(a)->getFoodOn());
+					Cast<ABotTargetPoint>(a)->RemoveFoodOn();
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Hand socket nullptr"));
+			}
+			return;
+		}
+		
+		if(Cast<AFood>(a))//if actor is AFood
+		{
+			if(Hand)//Hand socket isn't null
+			{
+				CarryFood(Cast<AFood>(a));
 			} else UE_LOG(LogTemp, Error, TEXT("Hand socket nullptr"));
 			return;
 		}
@@ -167,11 +184,17 @@ void AKnight::InteractFoodInHand()
 		}
 		
 		if(Cast<ABotTargetPoint>(a))//if actor is food location
+		{
+			if(Cast<ABotTargetPoint>(a)->IsFoodOn())
 			{
-				DeposeFood(Cast<ABotTargetPoint>(a)->GetFoodLocation());
-
-				return;
+				DropFood();
 			}
+			else
+			{
+				DeposeFood(Cast<ABotTargetPoint>(a));
+			}
+			return;
+		}
 		}
 
 	//no chest to interact with, drop food on the floor

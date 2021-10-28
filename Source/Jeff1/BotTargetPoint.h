@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Food.h"
 #include "GameFramework/Actor.h"
 #include "BotTargetPoint.generated.h"
 
@@ -23,8 +24,15 @@ class JEFF1_API ABotTargetPoint : public AActor
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* StaticMesh;
 
+	UPROPERTY(VisibleDefaultsOnly)
+	AFood* Food;
+
 public:
 	ABotTargetPoint();
 
 	FVector GetFoodLocation();
+	void SetFoodOn(AFood* f){Food = f;}
+	void RemoveFoodOn(){Food = nullptr;}
+	bool IsFoodOn(){return Food!=nullptr;}
+	AFood* getFoodOn(){return Food;}
 };

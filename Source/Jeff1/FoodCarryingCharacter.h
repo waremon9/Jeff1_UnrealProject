@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BotTargetPoint.h"
 #include "Food.h"
 #include "GameFramework/Character.h"
 #include "FoodCarryingCharacter.generated.h"
@@ -45,7 +46,7 @@ public:
 
 	void CarryFood(AFood* food);
 	AFood* DropFood();
-	AFood* DeposeFood(FVector Location);
+	AFood* DeposeFood(ABotTargetPoint* Location);
 
 	UCharacterMovementComponent* GetMoveComp(){return MovComp;}
 	USkeletalMeshSocket const* GetHand() {return Hand;}
