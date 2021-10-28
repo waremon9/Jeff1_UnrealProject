@@ -21,6 +21,9 @@ class JEFF1_API AKnight : public AFoodCarryingCharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere)
+	USceneCaptureComponent2D* FaceCamera;
 	
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* BoxInteract;

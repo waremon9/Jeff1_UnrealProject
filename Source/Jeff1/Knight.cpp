@@ -41,6 +41,9 @@ AKnight::AKnight()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+	FaceCamera = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("FaceCamera"));
+	FaceCamera->SetupAttachment(RootComponent);
+	
 	//Box for interacting with food
 	BoxInteract = CreateDefaultSubobject<UBoxComponent>("BoxInteract");
 	BoxInteract->SetupAttachment(RootComponent);

@@ -23,6 +23,7 @@ protected:
 	AGoblinManager* GoblinManager;
 	
 	//Food blueprint
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AFood> FoodBP;
 
 public:

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FaceCameraWidget.h"
 #include "Jeff1GameState.h"
 #include "GameFramework/HUD.h"
 #include "ProgressBarWidget.h"
@@ -35,7 +36,10 @@ public:
 		void ResetProgressBar();
 
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
-		TSubclassOf<UUserWidget> FoodWidgetClass;
+	TSubclassOf<UUserWidget> FoodWidgetClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Widgets")
+	TSubclassOf<UUserWidget> FaceCameraWidgetClass;
 
 	AJeff1GameState* GameStateRef;
 
@@ -44,4 +48,5 @@ protected:
 	
 private:
 	UProgressBarWidget* FoodWidget;
+	UFaceCameraWidget* FaceCameraWidget;
 };

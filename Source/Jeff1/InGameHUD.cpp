@@ -23,6 +23,16 @@ void AInGameHUD::BeginPlay()
 		}
 	}
 
+	if(FaceCameraWidgetClass)
+	{
+		FaceCameraWidget = CreateWidget<UFaceCameraWidget>(GetWorld(), FaceCameraWidgetClass);
+		if(FaceCameraWidget)
+		{
+			//if it went well then add to viewport
+			FaceCameraWidget->AddToViewport();
+		}
+	}
+
 	//get game state ref
 	GameStateRef = GetWorld()->GetGameState<AJeff1GameState>();
     

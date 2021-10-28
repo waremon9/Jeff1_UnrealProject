@@ -12,6 +12,7 @@ class JEFF1_API AGoblinManager : public AActor
 	GENERATED_BODY()
 	
 	//Goblin blueprint
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AAiGoblinCharacter> GoblinBP;
 
 	UPROPERTY()
