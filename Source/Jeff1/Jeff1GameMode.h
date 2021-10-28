@@ -18,11 +18,19 @@ class JEFF1_API AJeff1GameMode : public AGameMode
 
 	UPROPERTY()
 	AJeff1GameState* Jeff1GameState;
+	UPROPERTY()
+	AInGameHUD* GameHUD;
 	
 protected:
 	virtual void BeginPlay() override;
 
 	virtual void HandleMatchHasStarted() override;
+
+	UPROPERTY()
+	bool GameEnded = false;
+
+	UFUNCTION()
+	void EndGame();
 	
 public:
 	AJeff1GameMode();
@@ -32,7 +40,6 @@ public:
 
 	UFUNCTION()
 	void Loose();
-
 	UFUNCTION()
-	void NewLevel();
+	void Win();
 };

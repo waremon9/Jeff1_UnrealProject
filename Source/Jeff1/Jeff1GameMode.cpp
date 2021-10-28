@@ -10,7 +10,6 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 
-
 AJeff1GameMode::AJeff1GameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -33,6 +32,12 @@ void AJeff1GameMode::BeginPlay()
 		{
 			Viewport->ConsoleCommand("quit");
 		}
+	}
+
+	GameHUD = Cast<AInGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	if(!GameHUD)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Can't get hud ref in GameMode"));
 	}
 }
 
@@ -64,18 +69,37 @@ void AJeff1GameMode::CheckForWin()
 {
 	if (Jeff1GameState->FoodRequired <= Jeff1GameState->FoodAcquired)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::White, TEXT("C'est une win !!!"));
-		NewLevel();
+		Win();
 	}
 }
 
 void AJeff1GameMode::Loose()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 12.f, FColor::Red, TEXT("Perdu..."));
-	NewLevel();
+	if(!GameEnded)
+	{
+		EndGame();
+		if(GameHUD)
+		{
+			GameHUD->GameEnded(false);
+		}
+	}
 }
 
-void AJeff1GameMode::NewLevel()
+void AJeff1GameMode::Win()
 {
-	UGameplayStatics::OpenLevel(this, GetGameInstance<UJeff1GameInstance>()->GetNextLevelName(), true);
+	if(!GameEnded)
+	{
+		EndGame();
+		if(GameHUD)
+		{
+			GameHUD->GameEnded(true);
+		}
+	}
+}
+
+
+void AJeff1GameMode::EndGame()
+{
+	GameEnded = true;
+	GetWorld()->GetFirstPlayerController()->GetCharacter()->DisableInput(GetWorld()->GetFirstPlayerController());
 }
