@@ -16,6 +16,9 @@ class JEFF1_API AGoblinManager : public AActor
 	TSubclassOf<class AAiGoblinCharacter> GoblinBP;
 
 	UPROPERTY()
+	class AJeff1GameState* Jeff1GameState;
+
+	UPROPERTY()
 	FTimerHandle GoblinRespawnTimer;
 	UPROPERTY()
 	FTimerHandle GoblinLimitIncreaseTimer;

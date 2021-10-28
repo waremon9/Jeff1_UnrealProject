@@ -18,6 +18,11 @@ void AAiLocationManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetWorld()->GetGameState<AJeff1GameState>()->SetAiLocationManager(this);
+	//Give ref to GameState
+	AJeff1GameState* GS =  GetWorld()->GetGameState<AJeff1GameState>();
+	if(GS)
+	{
+		GS->SetAiLocationManager(this);
+	}
 }
 
