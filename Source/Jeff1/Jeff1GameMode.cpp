@@ -42,7 +42,7 @@ void AJeff1GameMode::HandleMatchHasStarted()
 	Super::HandleMatchHasStarted();
 
 	AJeff1GameState* GM = Cast<AJeff1GameState>(GameState);
-	TArray<ABotTargetPoint*> Points = GM->GetAiLocationManager()->GetAllBotTarget();
+	TArray<AActor*> Points = GM->GetAiLocationManager()->GetAllBotTarget();
 
 	FVector SpawnLocation = Points[FMath::RandRange(0, Points.Num() - 1)]->GetActorLocation();
 	

@@ -19,7 +19,8 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere)
-	TArray<ABotTargetPoint*> AllFoodBotTargetPoints;
+	TArray<AActor*> AllFoodBotTargetPoints;
+	//because TArray<ABotTargetPoint*> decided to not work
 	UPROPERTY(EditAnywhere)
 	ABotBasePoint* BaseLocation;
 	
@@ -27,6 +28,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	TArray<ABotTargetPoint*> GetAllBotTarget(){return AllFoodBotTargetPoints;}
+	TArray<AActor*> GetAllBotTarget(){return AllFoodBotTargetPoints;}
 	ABotBasePoint* GetBaseLocation(){return BaseLocation;}
 };

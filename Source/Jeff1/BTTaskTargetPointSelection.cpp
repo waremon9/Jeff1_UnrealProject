@@ -20,7 +20,7 @@ EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeCompon
 		UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComponent();
 		ABotTargetPoint* CurrentPoint = Cast<ABotTargetPoint>(BlackboardComp->GetValueAsObject("LocationToGo"));
  
-		TArray<ABotTargetPoint*> AvailableTargetPoints = GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetAllBotTarget();
+		TArray<AActor*> AvailableTargetPoints = GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetAllBotTarget();
 
 		//Here, we store the possible next target point
 		ABotTargetPoint* NextTargetPoint;
@@ -30,7 +30,12 @@ EBTNodeResult::Type UBTTaskTargetPointSelection::ExecuteTask(UBehaviorTreeCompon
 		{
 			const int32 RandomIndex = FMath::RandRange(0, AvailableTargetPoints.Num() - 1);
 			//Remember that the Array provided by the Controller function contains AActor* objects so we need to cast.
-			NextTargetPoint = AvailableTargetPoints[RandomIndex];
+			NextTargetPoint = Cast<ABotTargetPoint>(AvailableTargetPoints[RandomIndex]);
+			if(!NextTargetPoint)
+			{
+				UE_LOG(LogTemp, Error, TEXT("Bad cast in TaskTargetPoint"));
+				return EBTNodeResult::Failed;
+			}
 		} while (CurrentPoint == NextTargetPoint);
  
 		//Update the next location in the Blackboard so the bot can move to the next Blackboard value

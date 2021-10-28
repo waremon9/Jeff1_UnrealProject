@@ -6,7 +6,6 @@
 #include "Knight.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-
 UKnightAnimationBlueprint::UKnightAnimationBlueprint()
 {
 	Speed = 0;
