@@ -1,17 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BTTaskDeposeFood.h"
+#include "BTTaskDropFood.h"
 
 #include "AiGoblinCharacter.h"
 #include "AiGoblinController.h"
-#include "BotTargetPoint.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-EBTNodeResult::Type UBTTaskDeposeFood::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
+EBTNodeResult::Type UBTTaskDropFood::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AAiGoblinController* AICon = Cast<AAiGoblinController>(OwnerComp.GetAIOwner());
-	
+
 	if (AICon)
 	{
 		AAiGoblinCharacter* Character =  Cast<AAiGoblinCharacter>(AICon->GetCharacter());
@@ -19,14 +18,9 @@ EBTNodeResult::Type UBTTaskDeposeFood::ExecuteTask(UBehaviorTreeComponent & Owne
 
 		if (Character && BlackboardComp)
 		{
-			ABotTargetPoint* point = Cast<ABotTargetPoint>(BlackboardComp->GetValueAsObject("LocationToGo"));
-			if(point->IsFoodOn())
-			{
-				return EBTNodeResult::Failed;
-			}
-			
-			Character->DeposeFood(point);
-			
+			if(Character->IsCarryingFood())
+				BlackboardComp->SetValueAsVector("FoodLocation", Character->DropFood()->GetActorLocation());
+
 			//At this point, the task has been successfully completed
 			return EBTNodeResult::Succeeded;
 		}
