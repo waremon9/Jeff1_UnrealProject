@@ -7,6 +7,7 @@
 #include "Jeff1GameState.h"
 #include "GameFramework/HUD.h"
 #include "ProgressBarWidget.h"
+#include "VictoryDefeatWidget.h"
 #include "InGameHUD.generated.h"
 
 /**
@@ -36,9 +37,15 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Widgets")
 	TSubclassOf<UUserWidget> FaceCameraWidgetClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Widgets")
+	TSubclassOf<UUserWidget> VictoryDefeatWidgetClass;
 
 	UPROPERTY()
 	AJeff1GameState* GameStateRef;
+
+	UFUNCTION()
+	void GameEnded(bool Victory);
 
 protected:
 	AKnight* KnightRef;
@@ -46,4 +53,5 @@ protected:
 private:
 	UProgressBarWidget* FoodWidget;
 	UFaceCameraWidget* FaceCameraWidget;
+	UVictoryDefeatWidget* VictoryDefeatWidget;
 };

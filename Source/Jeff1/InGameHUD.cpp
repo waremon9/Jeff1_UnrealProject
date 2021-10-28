@@ -33,6 +33,12 @@ void AInGameHUD::BeginPlay()
 		}
 	}
 
+	if(VictoryDefeatWidgetClass)
+	{
+		VictoryDefeatWidget = CreateWidget<UVictoryDefeatWidget>(GetWorld(), VictoryDefeatWidgetClass);
+		//Don't add to viewport now
+	}
+
 	//get game state ref
 	GameStateRef = GetWorld()->GetGameState<AJeff1GameState>();
 	if(GameStateRef==nullptr)
@@ -70,4 +76,9 @@ void AInGameHUD::ResetProgressBar()
 	{
 		FoodWidget->ResetProgressBar();
 	}
+}
+
+void AInGameHUD::GameEnded(bool Victory)
+{
+	VictoryDefeatWidget->AddToViewport();
 }
