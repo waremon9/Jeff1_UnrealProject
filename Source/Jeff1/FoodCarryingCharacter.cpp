@@ -16,9 +16,20 @@ AFoodCarryingCharacter::AFoodCarryingCharacter()
 void AFoodCarryingCharacter::Initialize()
 {
 	MovComp = Cast<UCharacterMovementComponent>(ACharacter::GetMovementComponent());
-	MovComp->MaxWalkSpeed = MoveSpeed;
-
+	if(MovComp)
+	{
+		MovComp->MaxWalkSpeed = MoveSpeed;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("FoodCarryingCharacter can't get MovementComponent ref"));
+	}
+	
 	Hand = this->GetMesh()->GetSocketByName("Right_Hand");
+	if(Hand==nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("FoodCarryingCharacter can't get hand socket ref"));
+	}
 }
 
 // Called when the game starts or when spawned
@@ -51,10 +62,9 @@ void AFoodCarryingCharacter::CarryFood(AFood* food)
 
 AFood* AFoodCarryingCharacter::DropFood()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 12.0f, FColor::Red, TEXT("Dropping Food"));
+	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //Detach food from hand
 	Food->StaticMesh->SetSimulatePhysics(true); //give physic back to carried food
 	Food->SetActorEnableCollision(true);
-	Food->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform); //Detach food from hand
 	AFood* TheItemToReturn = Food;
 	Food = nullptr;
 	MovComp->MaxWalkSpeed = MoveSpeed; //reset character speed

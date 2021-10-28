@@ -56,6 +56,8 @@ void AJeff1GameMode::HandleMatchHasStarted()
 	f->SetActorEnableCollision(false);
 	f->StaticMesh->SetSimulatePhysics(false);
 	TargetPoint->SetFoodOn(f);
+
+	Jeff1GameState->GetGoblinManager()->SpawnNewGoblin();
 }
 
 void AJeff1GameMode::CheckForWin()

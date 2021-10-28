@@ -26,11 +26,15 @@ void AChest::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	TArray<AActor*> Knights;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AKnight::StaticClass(), Knights);
-
-	if(Knights.Num()>0) Knight = Cast<AKnight>(Knights[0]);
-	UE_LOG(LogTemp, Warning, TEXT("%d"), Knights.Num());
+	AKnight* K = Cast<AKnight>(GetWorld()->GetFirstPlayerController()->GetCharacter());
+	if(K)
+	{
+		Knight = K;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Knight ref in Chest not found"));	
+	}
 
 	BaseTopRotation = TopChest->GetRelativeRotation();
 }
