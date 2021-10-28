@@ -121,6 +121,12 @@ void AKnight::CameraZoomOut()
 	CameraBoom->TargetArmLength = CameraZoom_v;
 }
 
+AKnight::FKnightFoodAcquired* AKnight::GetKnightOnFoodAcquired()
+{
+	return &KnightOnFoodAcquired;
+}
+
+
 void AKnight::InteractNoFoodInHand()
 {
 	//get all food in front of knight
@@ -177,10 +183,10 @@ void AKnight::InteractFoodInHand()
 			GetWorld()->GetAuthGameMode<AJeff1GameMode>()->CheckForWin();
 
 			//only execute if bound (meaning 1 entity is currently listening to this delegate)
-			if(Knight_OnFoodAcquired.IsBound())
+			if(KnightOnFoodAcquired.IsBound())
 			{
 				//broadcast delegate and pass foodacquired / parameter is 'Value' in HUD
-				Knight_OnFoodAcquired.Broadcast(GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired);
+				KnightOnFoodAcquired.Broadcast(GetWorld()->GetGameState<AJeff1GameState>()->FoodAcquired);
 			}
 			
 			return;

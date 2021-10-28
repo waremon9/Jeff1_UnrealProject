@@ -56,7 +56,7 @@ void AInGameHUD::BeginPlay()
 	KnightRef = Cast<AKnight>(GetWorld()->GetFirstPlayerController()->GetCharacter());
 	if(KnightRef)
 	{
-		KnightRef->Knight_OnFoodAcquired.AddDynamic(this, &AInGameHUD::UpdateProgressBar);
+		KnightRef->GetKnightOnFoodAcquired()->AddDynamic(this, &AInGameHUD::UpdateProgressBar);
 	}
 	
 	
