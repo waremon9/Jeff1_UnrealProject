@@ -16,7 +16,7 @@ EBTNodeResult::Type UBTTaskWatchesAgain::ExecuteTask(UBehaviorTreeComponent& Own
 
 		if (Character)
 		{
-			Character->SetWatchForKnight(true);
+			Character->SetWatchingForKnight(true);
 			return EBTNodeResult::Succeeded;
 		}
 	}

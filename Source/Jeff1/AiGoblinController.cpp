@@ -29,7 +29,7 @@ void AAiGoblinController::OnDetectKnight(FVector KnightLocation)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "A Goblin saw the Knight ! (\"ondetect\"");
 	
-	GetPawn<AAiGoblinCharacter>()->SetWatchForKnight(false);
+	GetPawn<AAiGoblinCharacter>()->SetWatchingForKnight(false);
 	
 	Blackboard->SetValueAsObject("BaseLocation", GetWorld()->GetGameState<AJeff1GameState>()->GetAiLocationManager()->GetBaseLocation());
 	Blackboard->SetValueAsVector("KnightLocation", KnightLocation);

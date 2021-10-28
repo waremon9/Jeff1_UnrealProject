@@ -21,6 +21,7 @@ void AAiGoblinCharacter::BeginPlay()
 
 	Knight = GetWorld()->GetFirstPlayerController()->GetPawn<AKnight>();
 	bIsMovingTowards = false;
+	bIsWatchingForKnight = true;
 }
 
 void AAiGoblinCharacter::Tick(float DeltaTime)
@@ -33,12 +34,13 @@ void AAiGoblinCharacter::Tick(float DeltaTime)
 		return;
 	}
 
-	if(bIsMovingTowards)
-		AddMovementInput(KnightDirection, DeltaTime);
+	if(bIsMovingTowards) AddMovementInput(KnightDirection, DeltaTime);
 	
-	if(!WatchesForKnight)
-		return;
-	
+	if(bIsWatchingForKnight) WatchForKnight();
+}
+
+void AAiGoblinCharacter::WatchForKnight() const
+{
 	FVector VGobToKnight = Knight->GetActorLocation()-GetActorLocation();
 
 	//Distance check
@@ -62,7 +64,7 @@ void AAiGoblinCharacter::Tick(float DeltaTime)
 											Knight->GetActorLocation(),
 											ECC_Visibility,
 											TraceParams))
-		return;
+												return;
 	
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "There's no obstacle");
 	
@@ -70,9 +72,25 @@ void AAiGoblinCharacter::Tick(float DeltaTime)
 	GetController<AAiGoblinController>()->OnDetectKnight(Knight->GetActorLocation());
 }
 
+void AAiGoblinCharacter::SetWatchingForKnight(bool _Value)
+{
+	bIsWatchingForKnight = _Value;
+}
+
+void AAiGoblinCharacter::SetMovingTowards(const FVector& _KnightDirection)
+{
+	KnightDirection = _KnightDirection;
+	bIsMovingTowards = true;
+}
+
+void AAiGoblinCharacter::StopMovingTowards()
+{
+	bIsMovingTowards = false;
+}
+
 float AAiGoblinCharacter::GetDistanceSight() const
 {
-	return  DistanceSight;
+	return DistanceSight;
 }
 
 float AAiGoblinCharacter::GetSideSight() const
@@ -83,20 +101,4 @@ float AAiGoblinCharacter::GetSideSight() const
 AKnight* AAiGoblinCharacter::GetTarget() const
 {
 	return Knight;
-}
-
-void AAiGoblinCharacter::SetWatchForKnight(bool _value)
-{
-	WatchesForKnight = _value;
-}
-
-void AAiGoblinCharacter::StopMovingTowards()
-{
-	bIsMovingTowards = false;
-}
-
-void AAiGoblinCharacter::SetMovingTowards(const FVector& _KnightDirection)
-{
-	bIsMovingTowards = true;
-	KnightDirection = _KnightDirection;
 }
