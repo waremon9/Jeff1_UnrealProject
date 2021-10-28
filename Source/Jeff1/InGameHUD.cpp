@@ -80,5 +80,18 @@ void AInGameHUD::ResetProgressBar()
 
 void AInGameHUD::GameEnded(bool Victory)
 {
+	if(VictoryDefeatWidget==nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Null ref victory defeat widget in game hud"));
+		return;
+	}
 	VictoryDefeatWidget->AddToViewport();
+	if(Victory)
+	{
+		VictoryDefeatWidget->SetText(FText::FromString("Victory"), FLinearColor::Green);
+	}
+	else
+	{
+		VictoryDefeatWidget->SetText(FText::FromString("Defeat"), FLinearColor::Red);
+	}
 }
