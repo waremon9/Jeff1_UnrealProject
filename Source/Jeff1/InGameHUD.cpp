@@ -86,12 +86,12 @@ void AInGameHUD::GameEnded(bool Victory)
 		return;
 	}
 	VictoryDefeatWidget->AddToViewport();
-	if(Victory)
+	if(!Victory)
 	{
-		VictoryDefeatWidget->SetText(FText::FromString("Victory"), FLinearColor::Green);
+		VictoryDefeatWidget->SetText(FText::FromString("You win"), FLinearColor::Green);
 	}
 	else
 	{
-		VictoryDefeatWidget->SetText(FText::FromString("Defeat"), FLinearColor::Red);
+		VictoryDefeatWidget->SetText(FText::FromString("You died"), FLinearColor::Red);
 	}
 }

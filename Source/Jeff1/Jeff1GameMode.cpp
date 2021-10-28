@@ -80,7 +80,7 @@ void AJeff1GameMode::Loose()
 		EndGame();
 		if(GameHUD)
 		{
-			GameHUD->GameEnded(false);
+			GameHUD->GameEnded(true);
 		}
 	}
 }
@@ -92,7 +92,7 @@ void AJeff1GameMode::Win()
 		EndGame();
 		if(GameHUD)
 		{
-			GameHUD->GameEnded(true);
+			GameHUD->GameEnded(false);
 		}
 	}
 }
