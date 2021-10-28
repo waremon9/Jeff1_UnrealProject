@@ -17,13 +17,16 @@ public:
 	AAiGoblinCharacter();
 
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
+	virtual void Tick(float DeltaTime) override;
 
 	float GetDistanceSight() const;
 	float GetSideSight() const;
 	AKnight* GetTarget() const;
 	void SetWatchForKnight(bool _value);
-	
+	void StopMovingTowards();
+	UFUNCTION()
+	void SetMovingTowards(const FVector& _KnightDirection);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	AKnight* Knight;
@@ -36,4 +39,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	bool WatchesForKnight = true;
+	bool bIsMovingTowards;
+	FVector KnightDirection;
 };

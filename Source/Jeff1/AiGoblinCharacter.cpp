@@ -20,11 +20,12 @@ void AAiGoblinCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Knight = GetWorld()->GetFirstPlayerController()->GetPawn<AKnight>();
+	bIsMovingTowards = false;
 }
 
-void AAiGoblinCharacter::Tick(float DeltaSeconds)
+void AAiGoblinCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaSeconds);
+	Super::Tick(DeltaTime);
 	
 	if(!Knight)
 	{
@@ -32,6 +33,9 @@ void AAiGoblinCharacter::Tick(float DeltaSeconds)
 		return;
 	}
 
+	if(bIsMovingTowards)
+		AddMovementInput(KnightDirection, DeltaTime);
+	
 	if(!WatchesForKnight)
 		return;
 	
@@ -41,15 +45,9 @@ void AAiGoblinCharacter::Tick(float DeltaSeconds)
 	if(VGobToKnight.Size() > DistanceSight)
 		return;
 
-	if(false)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "The Knight is within the distance");
-
 	//Side sight check
 	if(FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(VGobToKnight, GetActorForwardVector()))) > SideSight / 2)
 		return;
-	
-	if(false)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "The Knight is in the correct direction");
 
 	//Obstacle check
 	FCollisionQueryParams TraceParams(TEXT("TraceActor"), true, this);
@@ -90,4 +88,15 @@ AKnight* AAiGoblinCharacter::GetTarget() const
 void AAiGoblinCharacter::SetWatchForKnight(bool _value)
 {
 	WatchesForKnight = _value;
+}
+
+void AAiGoblinCharacter::StopMovingTowards()
+{
+	bIsMovingTowards = false;
+}
+
+void AAiGoblinCharacter::SetMovingTowards(const FVector& _KnightDirection)
+{
+	bIsMovingTowards = true;
+	KnightDirection = _KnightDirection;
 }
