@@ -66,8 +66,6 @@ void AAiGoblinCharacter::WatchForKnight() const
 											TraceParams))
 												return;
 	
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "There's no obstacle");
-	
 	//The knight is in sight
 	GetController<AAiGoblinController>()->OnDetectKnight(Knight->GetActorLocation());
 }
